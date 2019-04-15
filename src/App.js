@@ -115,10 +115,10 @@ export default class App extends React.PureComponent {
   };
 
   onWidgetEditClick(e) {
-    e.preventDefault()
-    e.stopPropagation()
+    //e.preventDefault()
+    //e.stopPropagation()
     console.log(e)
-    return false
+    //return false
   }
 
   render() {
@@ -156,11 +156,13 @@ export default class App extends React.PureComponent {
        return <div id={"widget-" + l.i} key={i}>
          <span className="text">{i}</span>
          {self.state.edit ? <div className="EditLayout" style={{
-           backgroundColor: "rgba(255,0,0,0.1)",
+           backgroundColor: "rgba(255,255,255,0.7)",
            width: self.state.sizes[self.state.currentBreakpoint][i].width,
            height: self.state.sizes[self.state.currentBreakpoint][i].height,
            position: "absolute",
-           zIndex: 2
+           zIndex: 2,
+           textAlign: "center",
+           lineHeight: self.state.sizes[self.state.currentBreakpoint][i].height + "px"
          }}
          onClick={self.onWidgetEditClick.bind(self)}>
          Editing
