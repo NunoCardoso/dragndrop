@@ -30,6 +30,7 @@ export default class App extends React.PureComponent {
       "2": true,
       "3": true
     },
+    sizes: { lg: [], md: [], sm: []},
     layouts: {
       lg: [
         {x: 0, y: 0, w: 8, h: 2, i: "0"},
@@ -57,31 +58,45 @@ export default class App extends React.PureComponent {
   }
 
   onEditChange () {
+    let sizes = _.cloneDeep(this.state.sizes)
+    if (!this.state.edit) {
+      sizes[this.state.currentBreakpoint] = this.state.layouts[this.state.currentBreakpoint].map(widget => {
+        return {
+          width: document.getElementById("widget-" + widget.i).offsetWidth,
+          height: document.getElementById("widget-" + widget.i).offsetHeight
+        }
+      })
+    }
     this.setState({
-      edit: !this.state.edit
+      edit: !this.state.edit,
+      sizes: sizes
     })
   }
 
-  onResize (i, width, height) {
+  onWidgetResizeDetected (i, width, height) {
     console.log("ON RESIZE ", width, height, i)
     let newLayout = _.cloneDeep(this.state.layouts)
+    let newSizes = _.cloneDeep(this.state.sizes)
     let index = _.findIndex(newLayout[this.state.currentBreakpoint], {"i" : i})
     let element = newLayout[this.state.currentBreakpoint][index]
-    if (Math.ceil((height + 40) / this.props.rowHeight) !== element.h) {
-      console.log("Changing from " + JSON.stringify(element))
-      element.h =  Math.ceil((height + 40) / this.props.rowHeight)
-      newLayout[this.state.currentBreakpoint][index] = element
-      console.log("to " + JSON.stringify(element))
-      this.setState({
-        layouts: newLayout
-      })
+    element.h =  Math.ceil((height + 50) / this.props.rowHeight)
+    newLayout[this.state.currentBreakpoint][index] = element
+    element.height = element.h * this.props.rowHeight
+    element.width = width
+    newSizes[this.state.currentBreakpoint][index] = {
+      width: document.getElementById("widget-" + i).offsetWidth,
+      height: document.getElementById("widget-" + i).offsetHeight
     }
+    this.setState({
+      layouts: newLayout,
+      sizes: newSizes
+    })
   }
 
-  expand (i, e) {
-    console.log(i)
+  onWidgetCollapseClick (index) {
+    console.log(index)
     let newCollapse = _.cloneDeep(this.state.collapse)
-    newCollapse[i] = !newCollapse[i]
+    newCollapse[index] = !newCollapse[index]
     this.setState({
       collapse: newCollapse
     })
@@ -98,6 +113,13 @@ export default class App extends React.PureComponent {
        layouts: layouts
     })
   };
+
+  onWidgetEditClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log(e)
+    return false
+  }
 
   render() {
     if (!this.state.mounted) {
@@ -131,12 +153,21 @@ export default class App extends React.PureComponent {
         preventCollision={!this.state.compactType}
       >
       {_.map(this.state.layouts[this.state.currentBreakpoint], function(l, i) {
-       return <div key={i}>
+       return <div id={"widget-" + l.i} key={i}>
          <span className="text">{i}</span>
-         {self.state.edit ? <div className="EditLayout"></div> : null}
-         <Ekspanderbartpanel apen={!self.state.collapse[l.i]} tittel="Klikk her for å åpne/lukke panelet" onClick={self.expand.bind(self, l.i)}>
+         {self.state.edit ? <div className="EditLayout" style={{
+           backgroundColor: "rgba(255,0,0,0.1)",
+           width: self.state.sizes[self.state.currentBreakpoint][i].width,
+           height: self.state.sizes[self.state.currentBreakpoint][i].height,
+           position: "absolute",
+           zIndex: 2
+         }}
+         onClick={self.onWidgetEditClick.bind(self)}>
+         Editing
+         </div> : null}
+         <Ekspanderbartpanel apen={!self.state.collapse[l.i]} tittel="Klikk her for å åpne/lukke panelet" onClick={self.onWidgetCollapseClick.bind(self, l.i)}>
            <div>
-           <ReactResizeDetector handleWidth handleHeight onResize={self.onResize.bind(self, l.i)}/>
+           <ReactResizeDetector handleWidth handleHeight onResize={self.onWidgetResizeDetected.bind(self, l.i)}/>
            {self.state.collapse[l.i] ? null : <div> Panelet vil da ekspandere og vise innholdet.<br/>
              Panelet vil da ekspandere og vise innholdet.<br/>
              Panelet vil da ekspandere og vise innholdet.<br/>
