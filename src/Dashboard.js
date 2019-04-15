@@ -4,7 +4,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
-import "./App.css"
+import "./Dashboard.css"
 import "./nav.css"
 import "./hacks.css"
 
@@ -12,7 +12,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import ReactResizeDetector from 'react-resize-detector';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-export default class App extends React.PureComponent {
+export default class Dashboard extends React.PureComponent {
   static defaultProps = {
     rowHeight: 30,
     //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
@@ -115,10 +115,7 @@ export default class App extends React.PureComponent {
   };
 
   onWidgetEditClick(e) {
-    //e.preventDefault()
-    //e.stopPropagation()
     console.log(e)
-    //return false
   }
 
   render() {
