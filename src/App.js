@@ -2,6 +2,9 @@ import React from "react";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "./App.css"
+import "./nav.css"
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
@@ -30,10 +33,17 @@ export default class App extends React.Component {
     return _.map(this.state.layouts.lg, function(l, i) {
       return <div key={i}>
         <span className="text">{i}</span>
-        <div> x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>
-          x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>
-          x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>x<br/>
-        </div>
+        <Ekspanderbartpanel tittel="Klikk her for å åpne/lukke panelet">
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+    Panelet vil da ekspandere og vise innholdet.<br/>
+</Ekspanderbartpanel>
       </div>
     });
   }
