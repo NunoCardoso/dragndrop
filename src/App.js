@@ -1,61 +1,65 @@
 import React from "react";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import "bootstrap/dist/css/bootstrap.min.css"
+import "react-grid-layout/css/styles.css"
+import "react-resizable/css/styles.css"
 import "./App.css"
 import "./nav.css"
 import "./hacks.css"
 
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import Resizable from 'react-component-resizable';
 import ReactResizeDetector from 'react-resize-detector';
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
 
 export default class App extends React.PureComponent {
   static defaultProps = {
-    className: "layout",
     rowHeight: 30,
     //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    cols: { lg: 12, md: 3, sm: 1},
+    cols: { lg: 12, md: 3, sm: 1}
+  };
+
+  state = {
+    edit: false,
+    currentBreakpoint: "lg",
+    compactType: "vertical",
+    mounted: false,
     collapse: {
       "0": false,
       "1": true,
       "2": true,
       "3": true
     },
-    initialLayout: {
+    layouts: {
       lg: [
-        {x: 0, y: 0, w: 8, h: 4, i: "0"},
-        {x: 8, y: 0, w: 4, h: 4, i: "1"},
-        {x: 0, y: 4, w: 8, h: 4, i: "2"},
-        {x: 8, y: 4, w: 4, h: 4, i: "3"}
+        {x: 0, y: 0, w: 8, h: 2, i: "0"},
+        {x: 8, y: 0, w: 4, h: 2, i: "1"},
+        {x: 0, y: 4, w: 8, h: 2, i: "2"},
+        {x: 8, y: 4, w: 4, h: 2, i: "3"}
       ],
       md: [
-        {x: 0, y: 0, w: 2, h: 4, i: "0"},
-        {x: 2, y: 0, w: 1, h: 4, i: "1"},
-        {x: 0, y: 4, w: 2, h: 4, i: "2"},
-        {x: 2, y: 4, w: 1, h: 4, i: "3"}
+        {x: 0, y: 0, w: 2, h: 2, i: "0"},
+        {x: 2, y: 0, w: 1, h: 2, i: "1"},
+        {x: 0, y: 4, w: 2, h: 2, i: "2"},
+        {x: 2, y: 4, w: 1, h: 2, i: "3"}
       ],
       sm: [
-        {x: 0, y: 0, w: 2, h: 4, i: "0"},
-        {x: 2, y: 0, w: 1, h: 4, i: "1"},
-        {x: 0, y: 4, w: 2, h: 4, i: "2"},
-        {x: 2, y: 4, w: 1, h: 4, i: "3"}
+        {x: 0, y: 0, w: 2, h: 2, i: "0"},
+        {x: 2, y: 0, w: 1, h: 2, i: "1"},
+        {x: 0, y: 4, w: 2, h: 2, i: "2"},
+        {x: 2, y: 4, w: 1, h: 2, i: "3"}
       ]
     }
   };
 
-  state = {
-    currentBreakpoint: "lg",
-    compactType: "vertical",
-    mounted: false,
-    layouts: this.props.initialLayout,
-    collapse: this.props.collapse
-  };
-
   componentDidMount() {
     this.setState({ mounted: true });
+  }
+
+  onEditChange () {
+    this.setState({
+      edit: !this.state.edit
+    })
   }
 
   onResize (i, width, height) {
@@ -83,48 +87,13 @@ export default class App extends React.PureComponent {
     })
   }
 
-  generateDOM() {
-    let self = this
-    return _.map(this.state.layouts[this.state.currentBreakpoint], function(l, i) {
-      return <div key={i}>
-        <span className="text">{i}</span>
-        <Ekspanderbartpanel apen={!self.state.collapse[l.i]} tittel="Klikk her for å åpne/lukke panelet" onClick={self.expand.bind(self, l.i)}>
-          <div>
-          <ReactResizeDetector handleWidth handleHeight onResize={self.onResize.bind(self, l.i)}/>
-          {self.state.collapse[l.i] ? null : <div> Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            Panelet vil da ekspandere og vise innholdet.<br/>
-            </div>}
-            </div>
-        </Ekspanderbartpanel>
-        </div>
-    });
-  }
-
   onBreakpointChange = breakpoint => {
     this.setState({
       currentBreakpoint: breakpoint
     });
   };
 
-  onCompactTypeChange = () => {
-    const { compactType: oldCompactType } = this.state;
-    const compactType =
-      oldCompactType === "horizontal"
-        ? "vertical"
-        : oldCompactType === "vertical" ? null : "horizontal";
-    this.setState({ compactType });
-  };
-
   onLayoutChange = (layout, layouts) => {
-    console.log("layout", layout)
-    console.log("layouts", layouts)
     this.setState({
        layouts: layouts
     })
@@ -134,38 +103,55 @@ export default class App extends React.PureComponent {
     if (!this.state.mounted) {
       return <div>Wait</div>
     }
-    return (
-      <div>
-        <div>
+    var self = this
+    return <div>
+      <div className='d-flex m-2 justify-content-between'>
+        <div className='d-inline-block'>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
           }{" "}
           columns)
         </div>
-        <div>
-          Compaction type:{" "}
-          {_.capitalize(this.state.compactType) || "No Compaction"}
-        </div>
-        <button onClick={this.onCompactTypeChange}>
-          Change Compaction Type
+        <button onClick={this.onEditChange.bind(this)}>
+          {this.state.edit ? "Editing" : "Edit"}
         </button>
-        <ResponsiveReactGridLayout
-          breakpoints={{lg: 900, md: 600, sm: 0}}
-          {...this.props}
-          layouts={this.state.layouts}
-          onBreakpointChange={this.onBreakpointChange}
-          onLayoutChange={this.onLayoutChange}
-          // WidthProvider option
-          measureBeforeMount={false}
-          // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
-          // and set `measureBeforeMount={true}`.
-          useCSSTransforms={this.state.mounted}
-          compactType={this.state.compactType}
-          preventCollision={!this.state.compactType}
-        >
-          {this.generateDOM()}
-        </ResponsiveReactGridLayout>
       </div>
-    );
+      <ResponsiveReactGridLayout
+        breakpoints={{lg: 900, md: 600, sm: 0}}
+        {...this.props}
+        autoSize={true}
+        isDraggable={this.state.edit}
+        isResizable={this.state.edit}
+        layouts={this.state.layouts}
+        onBreakpointChange={this.onBreakpointChange}
+        onLayoutChange={this.onLayoutChange}
+        measureBeforeMount={false}
+        useCSSTransforms={this.state.mounted}
+        compactType={this.state.compactType}
+        preventCollision={!this.state.compactType}
+      >
+      {_.map(this.state.layouts[this.state.currentBreakpoint], function(l, i) {
+       return <div key={i}>
+         <span className="text">{i}</span>
+         {self.state.edit ? <div className="EditLayout"></div> : null}
+         <Ekspanderbartpanel apen={!self.state.collapse[l.i]} tittel="Klikk her for å åpne/lukke panelet" onClick={self.expand.bind(self, l.i)}>
+           <div>
+           <ReactResizeDetector handleWidth handleHeight onResize={self.onResize.bind(self, l.i)}/>
+           {self.state.collapse[l.i] ? null : <div> Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             Panelet vil da ekspandere og vise innholdet.<br/>
+             </div>}
+             </div>
+         </Ekspanderbartpanel>
+         </div>
+     })}
+      </ResponsiveReactGridLayout>
+    </div>
   }
 }

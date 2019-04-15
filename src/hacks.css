@@ -1,6 +1,14 @@
 
-.ekspanderbartPanel__heading{
+.ekspanderbartPanel__heading {
   overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.react-grid-layout {
+  background: #eee;
+}
+
+.react-grid-item.cssTransforms {
+  transition-property: transform, height, width;
+}

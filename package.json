@@ -17,7 +17,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-collapse": "^4.0.3",
-    "react-component-resizable": "^2.0.1",
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",
     "react-motion": "^0.5.2",
