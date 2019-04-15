@@ -12,10 +12,14 @@ export default class App extends React.Component {
   static defaultProps = {
     className: "layout",
     rowHeight: 30,
-    onLayoutChange: function() {},
     //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    cols: { lg: 4, md: 3, sm: 2, xs: 1, xxs: 1 },
-    initialLayout: generateLayout()
+    cols: { lg: 3, md: 3, sm: 3, xs: 1, xxs: 1 },
+    initialLayout: [
+      {x: 0, y: 0, w: 2, h: 4, i: "0"},
+      {x: 2, y: 0, w: 1, h: 4, i: "1"},
+      {x: 0, y: 4, w: 2, h: 4, i: "2"},
+      {x: 2, y: 4, w: 1, h: 4, i: "3"}
+      ]
   };
 
   state = {
@@ -29,11 +33,26 @@ export default class App extends React.Component {
     this.setState({ mounted: true });
   }
 
+  doubleLayoutChange(e) {
+    console.log(e.target)
+    this.setState({
+      layouts: {lg: [
+        {x: 0, y: 0, w: 2, h: 8, i: "0"},
+        {x: 2, y: 0, w: 1, h: 8, i: "1"},
+        {x: 0, y: 4, w: 2, h: 8, i: "2"},
+        {x: 2, y: 4, w: 1, h: 8, i: "3"}
+        ]
+    }
+  })
+  }
+
   generateDOM() {
+    let self = this
     return _.map(this.state.layouts.lg, function(l, i) {
       return <div key={i}>
         <span className="text">{i}</span>
-        <Ekspanderbartpanel tittel="Klikk her for å åpne/lukke panelet">
+        <Ekspanderbartpanel tittel="Klikk her for å åpne/lukke panelet"
+        onClick={self.doubleLayoutChange.bind(self)}>
     Panelet vil da ekspandere og vise innholdet.<br/>
     Panelet vil da ekspandere og vise innholdet.<br/>
     Panelet vil da ekspandere og vise innholdet.<br/>
@@ -64,13 +83,6 @@ export default class App extends React.Component {
   };
 
   onLayoutChange = (layout, layouts) => {
-    this.props.onLayoutChange(layout, layouts);
-  };
-
-  onNewLayout = () => {
-    this.setState({
-      layouts: { lg: generateLayout() }
-    });
   };
 
   render() {
@@ -86,7 +98,6 @@ export default class App extends React.Component {
           Compaction type:{" "}
           {_.capitalize(this.state.compactType) || "No Compaction"}
         </div>
-        <button onClick={this.onNewLayout}>Generate New Layout</button>
         <button onClick={this.onCompactTypeChange}>
           Change Compaction Type
         </button>
@@ -108,18 +119,4 @@ export default class App extends React.Component {
       </div>
     );
   }
-}
-
-function generateLayout() {
-  return _.map(_.range(0, 25), function(item, i) {
-    var y = Math.ceil(Math.random() * 4) + 1;
-    return {
-      x: (_.random(0, 5) * 2) % 12,
-      y: Math.floor(i / 6) * y,
-      w: 2,
-      h: y,
-      i: i.toString(),
-      static: Math.random() < 0.05
-    };
-  });
 }
