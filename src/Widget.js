@@ -17,17 +17,27 @@ export default class Widget extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       sizes: { lg: {}, md: {}, sm: {}},
-      collapsed: props.collapsed,
-      edit: props.edit
+      collapsed: props.collapsed
     }
+    this.onWidgetEditClick = this.onWidgetEditClick.bind(this)
+    this.onWidgetCollapseClick = this.onWidgetCollapseClick.bind(this, props.layout.i)
+    this.onResize = this.onResize.bind(this, props.layout)
+  }
+
+  componentDidMount() {
+    this.calculateSizes(this.props.layout)
   }
 
   onWidgetCollapseClick () {
+    const { onWidgetCollapse, layout } = this.props
     this.setState({
       collapsed: !this.state.collapsed
+    }, () => {
+      if (onWidgetCollapse) {
+        onWidgetCollapse(this.state.collapsed, layout)
+      }
     })
   }
 
@@ -36,54 +46,53 @@ export default class Widget extends React.Component {
   }
 
   onResize(layout, width, height) {
-
-    const { onWidgetResizeDetected, currentBreakpoint } = this.props
-    console.log("ON RESIZE WIDGET ", width, height, layout)
-    let newSizes = _.cloneDeep(this.state.sizes)
-    layout.h =  Math.ceil((height + 50) / this.props.rowHeight)
-    newSizes[currentBreakpoint] = {
-      width: document.getElementById("widget-" + layout.i).offsetWidth,
-      height: document.getElementById("widget-" + layout.i).offsetHeight
+    const { onWidgetResize, rowHeight } = this.props
+    this.calculateSizes(layout)
+    let newLayout = _.cloneDeep(layout)
+    newLayout.h =  Math.ceil((height + 50) / rowHeight)
+    if (onWidgetResize) {
+      onWidgetResize(newLayout)
     }
-    this.setState({
-      sizes: newSizes
-    })
-    onWidgetResizeDetected(layout)
+  }
+
+  calculateSizes(layout) {
+    const { currentBreakpoint } = this.props
+    if (document.getElementById("widget-" + layout.i)) {
+      let newSizes = {
+        width: document.getElementById("widget-" + layout.i).offsetWidth,
+        height: document.getElementById("widget-" + layout.i).offsetHeight
+      }
+      let oldSizes = _.cloneDeep(this.state.sizes)
+      if (_.isEmpty(oldSizes[currentBreakpoint]) || (
+       ( (oldSizes[currentBreakpoint].height !== newSizes.height) ||
+        (oldSizes[currentBreakpoint].width !== newSizes.width) ) ) ) {
+        oldSizes[currentBreakpoint] = newSizes
+        this.setState({
+          sizes: oldSizes
+        })
+      }
+    }
   }
 
   render () {
 
-    const { layout, currentBreakpoint } = this.props
-    const { collapsed, edit, sizes } = this.state
-
-    if (edit && _.isEmpty(sizes)) {
-      let newSizes = _.cloneDeep(sizes)
-      newSizes[this.state.currentBreakpoint] = {
-        width: document.getElementById("widget-" + layout.i).offsetWidth,
-        height: document.getElementById("widget-" + layout.i).offsetHeight
-      }
-      this.setState({
-        sizes: newSizes
-      })
-    }
-
-    return <div id={"widget-" + layout.i}>
-      {edit ? <div className="EditLayout" style={{
-        backgroundColor: "rgba(255,255,255,0.7)",
-        width: sizes[currentBreakpoint].width,
-        height: sizes[currentBreakpoint].height,
-        position: "absolute",
-        zIndex: 2,
-        textAlign: "center",
-        lineHeight: sizes[currentBreakpoint].height + "px"
-      }}
-      onClick={this.onWidgetEditClick.bind(this)}>
+    const { layout, edit, currentBreakpoint } = this.props
+    const { collapsed, sizes } = this.state
+    //console.log("RENDERING ", edit, collapsed, layout)
+    return <div>
+      { edit ? <div className="EditLayout"
+      onClick={this.onWidgetEditClick}>
       Editing
-      </div> : null}
-      <Ekspanderbartpanel apen={!collapsed} tittel="Klikk her for å åpne/lukke panelet"
-      onClick={this.onWidgetCollapseClick.bind(this, layout.i)}>
+      </div> :
+      <Ekspanderbartpanel
+        apen={!collapsed}
+        tittel="Klikk her for å åpne/lukke panelet"
+        onClick={this.onWidgetCollapseClick}>
         <div>
-        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize.bind(this, layout)}/>
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={this.onResize}/>
         {collapsed === true ? null : <div> Panelet vil da ekspandere og vise innholdet.<br/>
           Panelet vil da ekspandere og vise innholdet.<br/>
           Panelet vil da ekspandere og vise innholdet.<br/>
@@ -95,7 +104,7 @@ export default class Widget extends React.Component {
           Panelet vil da ekspandere og vise innholdet.<br/>
           </div>}
         </div>
-      </Ekspanderbartpanel>
+      </Ekspanderbartpanel> }
     </div>
   }
 }

@@ -10,5 +10,10 @@
 }
 
 .react-grid-item.cssTransforms {
-  transition-property: transform, height, width;
+  transition-property: transform;/*, height, width;*/
+}
+
+.EditLayout {
+  background-color: rgba(255,255,255,0.7);
+  text-align: center;
 }

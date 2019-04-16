@@ -19,38 +19,43 @@ export default class Dashboard extends React.PureComponent {
     cols: { lg: 12, md: 3, sm: 1}
   };
 
-  state = {
-    edit: false,
-    currentBreakpoint: "lg",
-    compactType: "vertical",
-    mounted: false,
-    collapsed: {
-      "0": false,
-      "1": true,
-      "2": true,
-      "3": true
-    },
-    layouts: {
-      lg: [
-        {x: 0, y: 0, w: 8, h: 2, i: "0"},
-        {x: 8, y: 0, w: 4, h: 2, i: "1"},
-        {x: 0, y: 4, w: 8, h: 2, i: "2"},
-        {x: 8, y: 4, w: 4, h: 2, i: "3"}
-      ],
-      md: [
-        {x: 0, y: 0, w: 2, h: 2, i: "0"},
-        {x: 2, y: 0, w: 1, h: 2, i: "1"},
-        {x: 0, y: 4, w: 2, h: 2, i: "2"},
-        {x: 2, y: 4, w: 1, h: 2, i: "3"}
-      ],
-      sm: [
-        {x: 0, y: 0, w: 2, h: 2, i: "0"},
-        {x: 2, y: 0, w: 1, h: 2, i: "1"},
-        {x: 0, y: 4, w: 2, h: 2, i: "2"},
-        {x: 2, y: 4, w: 1, h: 2, i: "3"}
-      ]
+  constructor(props) {
+    super(props)
+    this.state = {
+      edit: false,
+      currentBreakpoint: "lg",
+      compactType: "vertical",
+      mounted: false,
+      collapsed: {
+        "0": false,
+        "1": true,
+        "2": true,
+        "3": true
+      },
+      layouts: {
+        lg: [
+          {x: 0, y: 0, w: 8, h: 2, i: "0"},
+          {x: 8, y: 0, w: 4, h: 2, i: "1"},
+          {x: 0, y: 4, w: 8, h: 2, i: "2"},
+          {x: 8, y: 4, w: 4, h: 2, i: "3"}
+        ],
+        md: [
+          {x: 0, y: 0, w: 2, h: 2, i: "0"},
+          {x: 2, y: 0, w: 1, h: 2, i: "1"},
+          {x: 0, y: 4, w: 2, h: 2, i: "2"},
+          {x: 2, y: 4, w: 1, h: 2, i: "3"}
+        ],
+        sm: [
+          {x: 0, y: 0, w: 2, h: 2, i: "0"},
+          {x: 2, y: 0, w: 1, h: 2, i: "1"},
+          {x: 0, y: 4, w: 2, h: 2, i: "2"},
+          {x: 2, y: 4, w: 1, h: 2, i: "3"}
+        ]
+      }
     }
-  };
+    this.onWidgetResize = this.onWidgetResize.bind(this)
+    this.onWidgetCollapse = this.onWidgetCollapse.bind(this)
+  }
 
   componentDidMount() {
     this.setState({
@@ -64,15 +69,25 @@ export default class Dashboard extends React.PureComponent {
     })
   }
 
-  onWidgetResizeDetected (layout) {
-    console.log("ON RESIZE LAYOUT ", layout)
+  setLayouts(layouts) {
+    this.setState({
+      layouts: layouts
+    })
+  }
+
+  onWidgetCollapse (collapsed, layout) {
+    let newCollapsed = _.cloneDeep(this.state.collapsed)
+    newCollapsed[layout.i] = collapsed
+    this.setState({
+      collapsed: newCollapsed
+    })
+  }
+
+  onWidgetResize (layout) {
     let newLayout = _.cloneDeep(this.state.layouts)
     let index = _.findIndex(newLayout[this.state.currentBreakpoint], {"i" : layout.i})
     newLayout[this.state.currentBreakpoint][index] = layout
-    console.log(newLayout)
-    this.setState({
-      layouts: newLayout
-    })
+    this.setLayouts(newLayout)
   }
 
   onBreakpointChange = breakpoint => {
@@ -82,52 +97,53 @@ export default class Dashboard extends React.PureComponent {
   };
 
   onLayoutChange = (layout, layouts) => {
-    console.log("onLayoutChange call")
-    this.setState({
-       layouts: layouts
-    })
+    this.setLayouts(layouts)
   };
 
   render() {
-    if (!this.state.mounted) {
+    const { cols, rowHeight } = this.props
+    const { edit, collapsed, compactType, layouts, mounted, currentBreakpoint } = this.state
+
+    if (!mounted) {
       return <div>Wait</div>
     }
     let self = this
     return <div>
       <div className='d-flex m-2 justify-content-between'>
         <div className='d-inline-block'>
-          Current Breakpoint: {this.state.currentBreakpoint} ({
-            this.props.cols[this.state.currentBreakpoint]
+          Current Breakpoint: {currentBreakpoint} ({
+            cols[currentBreakpoint]
           }{" "}
           columns)
         </div>
         <button onClick={this.onEditChange.bind(this)}>
-          {this.state.edit ? "Editing" : "Edit"}
+          {edit ? "Editing" : "Edit"}
         </button>
       </div>
       <ResponsiveReactGridLayout
-        breakpoints={{lg: 900, md: 600, sm: 0}}
         {...this.props}
+        breakpoints={{lg: 900, md: 600, sm: 0}}
         autoSize={true}
-        isDraggable={this.state.edit}
-        isResizable={this.state.edit}
-        layouts={this.state.layouts}
+        isDraggable={edit}
+        isResizable={edit}
+        layouts={layouts}
         onBreakpointChange={this.onBreakpointChange}
         onLayoutChange={this.onLayoutChange}
         measureBeforeMount={false}
-        useCSSTransforms={this.state.mounted}
-        compactType={this.state.compactType}
-        preventCollision={!this.state.compactType}
+        useCSSTransforms={mounted}
+        compactType={compactType}
+        preventCollision={!compactType}
       >
-      {_.map(this.state.layouts[this.state.currentBreakpoint], function(l, i) {
-        return <div key={i}>
+      {_.map(layouts[currentBreakpoint], function(layout, i) {
+        return <div id={"widget-" + layout.i} key={i}>
         <Widget
-        layout={l}
-        collapsed={self.state.collapsed[l.i]}
-        edit={self.state.edit}
-        currentBreakpoint={self.state.currentBreakpoint}
-        onWidgetResizeDetected={self.onWidgetResizeDetected.bind(self)}
-        rowHeight={30}
+          layout={layout}
+          collapsed={collapsed[layout.i]}
+          edit={edit}
+          currentBreakpoint={currentBreakpoint}
+          onWidgetResize={self.onWidgetResize}
+          onWidgetCollapse={self.onWidgetCollapse}
+          rowHeight={rowHeight}
         /></div>
       })}
       </ResponsiveReactGridLayout>
