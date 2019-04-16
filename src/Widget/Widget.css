@@ -37,3 +37,9 @@
 .c-ui-widget {
   height: 100%;
 }
+
+.widgetAdd {
+  width: 100px;
+  height: 100px;
+  background-color: lightgray;
+}
