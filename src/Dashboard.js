@@ -26,6 +26,7 @@ export default class Dashboard extends React.PureComponent {
       currentBreakpoint: "lg",
       compactType: "vertical",
       mounted: false,
+
       collapsed: {
         "0": false,
         "1": true,
@@ -55,6 +56,7 @@ export default class Dashboard extends React.PureComponent {
     }
     this.onWidgetResize = this.onWidgetResize.bind(this)
     this.onWidgetCollapse = this.onWidgetCollapse.bind(this)
+    this.onWidgetDelete = this.onWidgetDelete.bind(this)
   }
 
   componentDidMount() {
@@ -63,21 +65,19 @@ export default class Dashboard extends React.PureComponent {
     });
   }
 
-  onEditChange () {
+  onEditChange = () => {
     this.setState({
       edit: !this.state.edit
     })
   }
 
-  setLayouts(layouts) {
-    console.log("SET LAYOUTS", layouts)
-
+  setLayouts = layouts => {
     this.setState({
       layouts: layouts
     })
   }
 
-  onWidgetCollapse (collapsed, layout) {
+  onWidgetCollapse = (collapsed, layout) => {
     let newCollapsed = _.cloneDeep(this.state.collapsed)
     newCollapsed[layout.i] = collapsed
     this.setState({
@@ -85,10 +85,22 @@ export default class Dashboard extends React.PureComponent {
     })
   }
 
-  onWidgetResize (layout) {
+  onWidgetResize = layout => {
+    console.log("DASHBOARD: onWidgetResize")
     let newLayout = _.cloneDeep(this.state.layouts)
     let index = _.findIndex(newLayout[this.state.currentBreakpoint], {"i" : layout.i})
     newLayout[this.state.currentBreakpoint][index] = layout
+    this.setLayouts(newLayout)
+  }
+
+  onWidgetDelete = layout => {
+    let newLayout = _.cloneDeep(this.state.layouts)
+    Object.keys(newLayout).forEach(breakpoint => {
+      let index = _.findIndex(newLayout[breakpoint], {"i": layout.i})
+      if (index >= 0) {
+        newLayout[breakpoint].splice(index, 1)
+      }
+    })
     this.setLayouts(newLayout)
   }
 
@@ -146,6 +158,7 @@ export default class Dashboard extends React.PureComponent {
           currentBreakpoint={currentBreakpoint}
           onWidgetResize={self.onWidgetResize}
           onWidgetCollapse={self.onWidgetCollapse}
+          onWidgetDelete={self.onWidgetDelete}
           rowHeight={rowHeight}
         /></div>
       })}

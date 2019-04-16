@@ -13,9 +13,25 @@
   transition-property: transform;/*, height, width;*/
 }
 
-.EditLayout {
+.editLayout {
   background-color: rgba(255,255,255,0.7);
   text-align: center;
+}
+
+.editLayoutTitleDiv {
+  background: lightgrey;
+  margin: 5px;
+  cursor: move;
+}
+
+.editLayoutTitle {
+  padding: 3px;
+}
+
+.editLayoutDeleteButton {
+  background: white;
+  padding-left: 3px;
+  float: right;
 }
 
 .c-ui-widget {

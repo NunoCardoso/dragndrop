@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import ReactResizeDetector from 'react-resize-detector';
 import _ from "lodash";
+import WidgetEdit from './WidgetEdit'
+import EkspandertBartWidget from './EkspandertBartWidget'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-grid-layout/css/styles.css"
@@ -21,8 +21,7 @@ export default class Widget extends React.Component {
       sizes: { lg: {}, md: {}, sm: {}},
       mouseOver: false
     }
-    this.onWidgetEditClick = this.onWidgetEditClick.bind(this)
-    this.onWidgetCollapseClick = this.onWidgetCollapseClick.bind(this, props.layout.i)
+    this.onCollapse = this.onCollapse.bind(this, props.layout.i)
     this.onResize = this.onResize.bind(this, props.layout)
   }
 
@@ -30,18 +29,15 @@ export default class Widget extends React.Component {
     this.calculateSizes(this.props.layout)
   }
 
-  onWidgetCollapseClick () {
+  onCollapse () {
     const { onWidgetCollapse, layout } = this.props
     if (onWidgetCollapse) {
       onWidgetCollapse(!this.props.collapsed, layout)
     }
   }
 
-  onWidgetEditClick(e) {
-    console.log(e)
-  }
-
   onResize(layout, width, height) {
+    console.log("WIDGET: onResize")
     const { onWidgetResize, rowHeight, edit } = this.props
     this.calculateSizes(layout)
     if (onWidgetResize && !edit) {
@@ -84,38 +80,18 @@ export default class Widget extends React.Component {
 
   render () {
 
-    const { layout, collapsed, edit, currentBreakpoint } = this.props
-    const { sizes, mouseOver } = this.state
+    const { mouseOver } = this.state
+    const { edit } = this.props
 
     return <div className='c-ui-widget'
       onMouseEnter={this.onMouseEnter.bind(this)}
       onMouseLeave={this.onMouseLeave.bind(this)}>
-      { edit && mouseOver ? <div className="EditLayout"
-      onClick={this.onWidgetEditClick}>
-      Editing
-      <span className="draggableHandle">[DRAG HERE]</span>
-      </div> :
-      <Ekspanderbartpanel
-        apen={!collapsed}
-        tittel="Klikk her for å åpne/lukke panelet"
-        onClick={this.onWidgetCollapseClick}>
-        <div>
-        <ReactResizeDetector
-          handleWidth
-          handleHeight
-          onResize={this.onResize}/>
-        {collapsed === true ? null : <div> Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          Panelet vil da ekspandere og vise innholdet.<br/>
-          </div>}
-        </div>
-      </Ekspanderbartpanel> }
+      { edit && mouseOver ?
+        <WidgetEdit {...this.props}/> :
+        <EkspandertBartWidget {...this.props}
+        onResize={this.onResize}
+        onCollapse={this.onCollapse}/>
+      }
     </div>
   }
 }
