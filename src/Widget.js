@@ -93,6 +93,7 @@ export default class Widget extends React.Component {
       { edit && mouseOver ? <div className="EditLayout"
       onClick={this.onWidgetEditClick}>
       Editing
+      <span className="draggableHandle">[DRAG HERE]</span>
       </div> :
       <Ekspanderbartpanel
         apen={!collapsed}

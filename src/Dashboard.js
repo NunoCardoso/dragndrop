@@ -135,6 +135,7 @@ export default class Dashboard extends React.PureComponent {
         useCSSTransforms={mounted}
         compactType={compactType}
         preventCollision={!compactType}
+        draggableHandle={'.draggableHandle'}
       >
       {_.map(layouts[currentBreakpoint], function(layout, i) {
         return <div id={"widget-" + layout.i} key={i}>
