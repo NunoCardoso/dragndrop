@@ -21,24 +21,23 @@ export default class Widget extends React.Component {
       sizes: { lg: {}, md: {}, sm: {}},
       mouseOver: false
     }
-    this.onCollapse = this.onCollapse.bind(this, props.layout.i)
-    this.onResize = this.onResize.bind(this, props.layout)
+    this.onUpdate = this.onUpdate.bind(this)
+    this.onResize = this.onResize.bind(this)
   }
 
   componentDidMount() {
     this.calculateSizes(this.props.layout)
   }
 
-  onCollapse () {
-    const { onWidgetCollapse, layout } = this.props
-    if (onWidgetCollapse) {
-      onWidgetCollapse(!this.props.collapsed, layout)
+  onUpdate (update) {
+    const { onWidgetUpdate, layout } = this.props
+    if (onWidgetUpdate) {
+      onWidgetUpdate(update, layout)
     }
   }
 
-  onResize(layout, width, height) {
-    console.log("WIDGET: onResize")
-    const { onWidgetResize, rowHeight, edit } = this.props
+  onResize(width, height) {
+    const { onWidgetResize, rowHeight, edit, layout } = this.props
     this.calculateSizes(layout)
     if (onWidgetResize && !edit) {
       let newLayout = _.cloneDeep(layout)
@@ -90,7 +89,7 @@ export default class Widget extends React.Component {
         <WidgetEdit {...this.props}/> :
         <EkspandertBartWidget {...this.props}
         onResize={this.onResize}
-        onCollapse={this.onCollapse}/>
+        onUpdate={this.onUpdate}/>
       }
     </div>
   }

@@ -26,13 +26,35 @@ export default class Dashboard extends React.PureComponent {
       currentBreakpoint: "lg",
       compactType: "vertical",
       mounted: false,
-
-      collapsed: {
-        "0": false,
-        "1": true,
-        "2": true,
-        "3": true
-      },
+      widgets: [{
+        i: "0",
+        type: "ekspandertBartWidget",
+        options: {
+          title: "Here is widget ABC",
+          collapsed: false
+        }
+      }, {
+        i: "1",
+        type: "ekspandertBartWidget",
+        options: {
+          title: "Here is widget DEF",
+          collapsed: true
+        }
+      }, {
+        i: "2",
+        type: "ekspandertBartWidget",
+        options: {
+          title: "Here is widget GHI",
+          collapsed: true
+        }
+      }, {
+        i: "3",
+        type: "ekspandertBartWidget",
+        options: {
+          title: "Here is widget JKL",
+          collapsed: true
+        }
+      }],
       layouts: {
         lg: [
           {x: 0, y: 0, w: 8, h: 2, i: "0"},
@@ -55,7 +77,7 @@ export default class Dashboard extends React.PureComponent {
       }
     }
     this.onWidgetResize = this.onWidgetResize.bind(this)
-    this.onWidgetCollapse = this.onWidgetCollapse.bind(this)
+    this.onWidgetUpdate = this.onWidgetUpdate.bind(this)
     this.onWidgetDelete = this.onWidgetDelete.bind(this)
   }
 
@@ -72,22 +94,30 @@ export default class Dashboard extends React.PureComponent {
   }
 
   setLayouts = layouts => {
-    console.log("SET LAYOUTS", layouts)
     this.setState({
       layouts: layouts
     })
   }
 
-  onWidgetCollapse = (collapsed, layout) => {
-    let newCollapsed = _.cloneDeep(this.state.collapsed)
-    newCollapsed[layout.i] = collapsed
+  setWidgets = widgets => {
     this.setState({
-      collapsed: newCollapsed
+      widgets: widgets
     })
   }
 
+  onWidgetUpdate = (update, layout) => {
+    console.log("ON WIDGET UPDATE")
+    let newWidgets = _.cloneDeep(this.state.widgets)
+    this.setWidgets(newWidgets.map((widget) => {
+      if (widget.i === layout.i) {
+        return update
+      } else {
+        return widget
+      }
+    }))
+  }
+
   onWidgetResize = layout => {
-    console.log("DASHBOARD: onWidgetResize")
     let newLayout = _.cloneDeep(this.state.layouts)
     let index = _.findIndex(newLayout[this.state.currentBreakpoint], {"i" : layout.i})
     newLayout[this.state.currentBreakpoint][index] = layout
@@ -95,6 +125,13 @@ export default class Dashboard extends React.PureComponent {
   }
 
   onWidgetDelete = layout => {
+    let newWidgets = _.cloneDeep(this.state.widgets)
+    newWidgets = _.reject(newWidgets, {"i" : layout.i})
+    newWidgets = newWidgets.map((widget, i) => {
+      widget.i = i.toString()
+      return widget
+    })
+
     let newLayout = _.cloneDeep(this.state.layouts)
     Object.keys(newLayout).forEach(breakpoint => {
       newLayout[breakpoint] = _.reject(newLayout[breakpoint], {"i": layout.i})
@@ -104,7 +141,9 @@ export default class Dashboard extends React.PureComponent {
         return layout
       })
     })
+
     this.setLayouts(newLayout)
+    this.setWidgets(newWidgets)
   }
 
   onBreakpointChange = breakpoint => {
@@ -119,7 +158,7 @@ export default class Dashboard extends React.PureComponent {
 
   render() {
     const { cols, rowHeight } = this.props
-    const { edit, collapsed, compactType, layouts, mounted, currentBreakpoint } = this.state
+    const { edit, widgets, compactType, layouts, mounted, currentBreakpoint } = this.state
 
     if (!mounted) {
       return <div>Wait</div>
@@ -156,11 +195,11 @@ export default class Dashboard extends React.PureComponent {
         return <div id={"widget-" + layout.i} key={i}>
         <Widget
           layout={layout}
-          collapsed={collapsed[layout.i]}
+          widget={widgets[layout.i]}
           edit={edit}
           currentBreakpoint={currentBreakpoint}
           onWidgetResize={self.onWidgetResize}
-          onWidgetCollapse={self.onWidgetCollapse}
+          onWidgetUpdate={self.onWidgetUpdate}
           onWidgetDelete={self.onWidgetDelete}
           rowHeight={rowHeight}
         /></div>
