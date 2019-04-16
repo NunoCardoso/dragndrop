@@ -70,6 +70,8 @@ export default class Dashboard extends React.PureComponent {
   }
 
   setLayouts(layouts) {
+    console.log("SET LAYOUTS", layouts)
+
     this.setState({
       layouts: layouts
     })

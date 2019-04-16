@@ -19,7 +19,7 @@ export default class Widget extends React.Component {
     super(props)
     this.state = {
       sizes: { lg: {}, md: {}, sm: {}},
-      collapsed: props.collapsed
+      mouseOver: false
     }
     this.onWidgetEditClick = this.onWidgetEditClick.bind(this)
     this.onWidgetCollapseClick = this.onWidgetCollapseClick.bind(this, props.layout.i)
@@ -32,13 +32,9 @@ export default class Widget extends React.Component {
 
   onWidgetCollapseClick () {
     const { onWidgetCollapse, layout } = this.props
-    this.setState({
-      collapsed: !this.state.collapsed
-    }, () => {
-      if (onWidgetCollapse) {
-        onWidgetCollapse(this.state.collapsed, layout)
-      }
-    })
+    if (onWidgetCollapse) {
+      onWidgetCollapse(!this.props.collapsed, layout)
+    }
   }
 
   onWidgetEditClick(e) {
@@ -46,11 +42,11 @@ export default class Widget extends React.Component {
   }
 
   onResize(layout, width, height) {
-    const { onWidgetResize, rowHeight } = this.props
+    const { onWidgetResize, rowHeight, edit } = this.props
     this.calculateSizes(layout)
-    let newLayout = _.cloneDeep(layout)
-    newLayout.h =  Math.ceil((height + 50) / rowHeight)
-    if (onWidgetResize) {
+    if (onWidgetResize && !edit) {
+      let newLayout = _.cloneDeep(layout)
+      newLayout.h =  Math.ceil((height + 50) / rowHeight)
       onWidgetResize(newLayout)
     }
   }
@@ -74,13 +70,27 @@ export default class Widget extends React.Component {
     }
   }
 
+  onMouseEnter (e) {
+    this.setState({
+      mouseOver: true
+    })
+  }
+
+  onMouseLeave (e) {
+    this.setState({
+      mouseOver: false
+    })
+  }
+
   render () {
 
-    const { layout, edit, currentBreakpoint } = this.props
-    const { collapsed, sizes } = this.state
-    //console.log("RENDERING ", edit, collapsed, layout)
-    return <div>
-      { edit ? <div className="EditLayout"
+    const { layout, collapsed, edit, currentBreakpoint } = this.props
+    const { sizes, mouseOver } = this.state
+
+    return <div className='c-ui-widget'
+      onMouseEnter={this.onMouseEnter.bind(this)}
+      onMouseLeave={this.onMouseLeave.bind(this)}>
+      { edit && mouseOver ? <div className="EditLayout"
       onClick={this.onWidgetEditClick}>
       Editing
       </div> :
