@@ -11,8 +11,9 @@ export default class WidgetEdit extends React.Component {
     console.log(e)
   }
 
-  onWidgetDeleteClick() {
-    console.log("YES", this.props)
+  onWidgetDeleteClick(e) {
+    e.stopPropagation()
+    e.preventDefault()
     if (this.props.onWidgetDelete) {
       this.props.onWidgetDelete(this.props.layout)
     }

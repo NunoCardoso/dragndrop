@@ -72,6 +72,7 @@ export default class Dashboard extends React.PureComponent {
   }
 
   setLayouts = layouts => {
+    console.log("SET LAYOUTS", layouts)
     this.setState({
       layouts: layouts
     })
@@ -96,10 +97,12 @@ export default class Dashboard extends React.PureComponent {
   onWidgetDelete = layout => {
     let newLayout = _.cloneDeep(this.state.layouts)
     Object.keys(newLayout).forEach(breakpoint => {
-      let index = _.findIndex(newLayout[breakpoint], {"i": layout.i})
-      if (index >= 0) {
-        newLayout[breakpoint].splice(index, 1)
-      }
+      newLayout[breakpoint] = _.reject(newLayout[breakpoint], {"i": layout.i})
+      // resort layout ids in a sequential order, it is mandatory
+      newLayout[breakpoint] = newLayout[breakpoint].map((layout, i) => {
+        layout.i = i.toString()
+        return layout
+      })
     })
     this.setLayouts(newLayout)
   }
