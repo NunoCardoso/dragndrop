@@ -49,7 +49,7 @@ export default class Dashboard extends React.PureComponent {
         }
       }, {
         i: "3",
-        type: "ekspandertBartWidget",
+        type: "invalidWidget",
         options: {
           title: "Here is widget JKL",
           collapsed: true
@@ -106,7 +106,6 @@ export default class Dashboard extends React.PureComponent {
   }
 
   onWidgetUpdate = (update, layout) => {
-    console.log("ON WIDGET UPDATE")
     let newWidgets = _.cloneDeep(this.state.widgets)
     this.setWidgets(newWidgets.map((widget) => {
       if (widget.i === layout.i) {

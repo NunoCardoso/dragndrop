@@ -80,16 +80,22 @@ export default class Widget extends React.Component {
   render () {
 
     const { mouseOver } = this.state
-    const { edit } = this.props
+    const { edit, widget } = this.props
 
     return <div className='c-ui-widget'
       onMouseEnter={this.onMouseEnter.bind(this)}
       onMouseLeave={this.onMouseLeave.bind(this)}>
       { edit && mouseOver ?
-        <WidgetEdit {...this.props}/> :
-        <EkspandertBartWidget {...this.props}
-        onResize={this.onResize}
-        onUpdate={this.onUpdate}/>
+        <WidgetEdit {...this.props}/> : (function(self) {
+          switch(widget.type) {
+            case 'ekspandertBartWidget':
+              return <EkspandertBartWidget {...self.props}
+                onResize={self.onResize}
+                onUpdate={self.onUpdate}/>
+            default:
+              return <div>No Widget</div>
+          }
+        })(this)
       }
     </div>
   }
