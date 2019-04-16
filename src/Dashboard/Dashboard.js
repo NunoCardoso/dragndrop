@@ -24,7 +24,14 @@ class Dashboard extends React.PureComponent {
     this.state = {
       edit: false,
       add: false,
-      currentBreakpoint: "lg"
+      currentBreakpoint: "lg",
+      availableWidgets: [{
+        type: "ekspandertBartWidget",
+        options: {
+          title: "New widget",
+          collapsed: false
+        }
+      }]
     }
     this.onBreakpointChange = this.onBreakpointChange.bind(this)
   }

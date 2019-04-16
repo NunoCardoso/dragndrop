@@ -18,13 +18,6 @@ class DashboardArea extends React.Component {
     this.state = {
       compactType: "vertical",
       mounted: false,
-      newWidgets: [{
-        type: "ekspandertBartWidget",
-        options: {
-          title: "New widget",
-          collapsed: false
-        }
-      }],
       widgets: [{
         i: "0",
         type: "ekspandertBartWidget",
@@ -100,7 +93,29 @@ class DashboardArea extends React.Component {
   }
 
   onWidgetAdd = (what) => {
-    console.log("I WANT TO ADD ONE ", what)
+    let newWidgets = _.cloneDeep(this.state.widgets)
+    let countWidgets = Object.keys(newWidgets).length
+    newWidgets = newWidgets.concat({
+      i: countWidgets.toString(),
+      type: "new widget",
+      options: {}
+    })
+
+    let newLayouts = _.cloneDeep(this.state.layouts)
+    Object.keys(newLayouts).forEach(breakpoint => {
+      newLayouts[breakpoint] = newLayouts[breakpoint].concat({
+        i: countWidgets.toString(),
+        x: 0,
+        y: Infinity, // puts it at the bottom
+        w: 2,
+        h: 2
+      })
+    })
+
+    this.setState({
+      widgets: newWidgets,
+      layouts: newLayouts
+    })
   }
 
   onWidgetUpdate = (update, layout) => {
