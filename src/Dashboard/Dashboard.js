@@ -1,14 +1,13 @@
 import React from "react";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import Widget from './Widget'
+import Widget from '../Widget/Widget'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
 import "./Dashboard.css"
-import "./nav.css"
-import "./hacks.css"
+import "../nav.css"
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 

@@ -7,9 +7,8 @@ import EkspandertBartWidget from './EkspandertBartWidget'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
-import "./Dashboard.css"
-import "./nav.css"
-import "./hacks.css"
+import "../nav.css"
+import "./Widget.css"
 
 export default class Widget extends React.Component {
 
