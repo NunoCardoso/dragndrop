@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
-import EkspandertBartWidget from './EkspandertBartWidget'
-import PanelWidget from './PanelWidget'
-import SmileyWidget from './SmileyWidget'
-import CatWidget from './CatWidget'
+import EkspandertBartWidget from './Catalog/EkspandertBartWidget'
+import PanelWidget from './Catalog/PanelWidget'
+import SmileyWidget from './Catalog/SmileyWidget'
+import CatWidget from './Catalog/CatWidget'
 
 const Widget = (props) => {
 

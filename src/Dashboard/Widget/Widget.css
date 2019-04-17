@@ -24,14 +24,26 @@
   cursor: move;
 }
 
+.c-ui-d-WidgetEdit .titleDiv:hover {
+  background: whitesmoke;
+}
+
 .c-ui-d-WidgetEdit .title {
-  padding: 5px;
+  line-height: 1.5;
 }
 
 .c-ui-d-WidgetEdit .deleteButton {
   background: white;
   padding-left: 3px;
   float: right;
+}
+
+.c-ui-d-WidgetEdit .deleteButton a {
+  text-decoration: none
+}
+
+.c-ui-d-WidgetEdit .deleteButton a:hover {
+  filter: brightness(130%);
 }
 
 .c-ui-d-Widget {

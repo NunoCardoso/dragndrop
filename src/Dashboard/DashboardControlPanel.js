@@ -8,12 +8,12 @@ const DashboardControlPanel = (props) => {
       } columns)
     </div>
     <div className='c-ui-d-dashboardControlPanel-buttons'>
-      {props.editMode ? <button className='c-ui-d-dashboardControlPanel-button'
+      {props.editMode ? <button className='mr-2 c-ui-d-dashboardControlPanel-button'
         onClick={props.onAddChange}>
-        {!props.addMode ? 'Add new' : 'Hide new'}
+        {!props.addMode ? 'Add new widget' : 'Hide new widgets'}
       </button> : null}
       <button onClick={props.onEditModeChange}>
-        {props.editMode ? 'Editing' : 'Edit'}
+        {props.editMode ? 'Save dashboard' : 'Edit dashboard'}
       </button>
     </div>
   </div>

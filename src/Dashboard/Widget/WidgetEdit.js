@@ -37,10 +37,11 @@ const WidgetEdit = (props) => {
   return <div className='c-ui-d-WidgetEdit'
     onClick={onWidgetEditClick}>
     <div className='titleDiv draggableHandle'>
-      <span className='title'>Editing</span>
-      <span className='deleteButton'>
-        <a href='#delete' onClick={() => setDeleteMode(true)}>[X]</a>
-      </span>
+      <div className='title'>Drag here to move widget
+        <div className='deleteButton'>
+          <a href='#delete' onClick={() => setDeleteMode(true)}>🗑</a>
+        </div>
+      </div>
     </div>
   </div>
 }
