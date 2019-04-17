@@ -1,6 +1,6 @@
 export default [{
-  type: 'ekspandertart',
-  title: 'Ekspandertart widget',
+  type: 'ekspandertbart',
+  title: 'Ekspandertbart widget',
   description: 'Widget that can collapse',
   options: {
     collapsed: false

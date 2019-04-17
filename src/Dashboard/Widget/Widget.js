@@ -87,7 +87,7 @@ export default class Widget extends React.Component {
       { editMode && mouseOver ?
         <WidgetEdit {...this.props}/> : (function(self) {
           switch(widget.type) {
-            case 'ekspandertBartWidget':
+            case 'ekspandertbart':
               return <EkspandertBartWidget {...self.props}
                 onResize={self.onResize}
                 onUpdate={self.onUpdate}/>

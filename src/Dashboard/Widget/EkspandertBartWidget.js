@@ -23,7 +23,7 @@ export default class EkspandertBartWidget extends React.Component {
 
     return <Ekspanderbartpanel
       apen={!widget.options.collapsed}
-      tittel={widget.options.title}
+      tittel={widget.title}
       onClick={this.onClick}>
       <div>
         <ReactResizeDetector
