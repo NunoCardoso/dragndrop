@@ -1,101 +1,65 @@
-import React from 'react'
-
-import _ from "lodash";
+import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import WidgetEdit from './WidgetEdit'
 import EkspandertBartWidget from './EkspandertBartWidget'
 
-import "bootstrap/dist/css/bootstrap.min.css"
-import "react-grid-layout/css/styles.css"
-import "react-resizable/css/styles.css"
-import "../../nav.css"
-import "./Widget.css"
+import './Widget.css'
 
-export default class Widget extends React.Component {
+const Widget = (props) => {
 
-  state = {}
+  const [sizes, setSizes] = useState({ lg: {}, md: {}, sm: {}})
+  const [mouseOver, setMouseOver] = useState(false)
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      sizes: { lg: {}, md: {}, sm: {}},
-      mouseOver: false
-    }
-    this.onUpdate = this.onUpdate.bind(this)
-    this.onResize = this.onResize.bind(this)
+  useEffect(() => {
+    calculateSizes()
+  }, [])
+
+
+  const onUpdate = (update) => {
+    props.onWidgetUpdate(update, props.layout)
   }
 
-  componentDidMount() {
-    this.calculateSizes(this.props.layout)
-  }
-
-  onUpdate (update) {
-    const { onWidgetUpdate, layout } = this.props
-    if (onWidgetUpdate) {
-      onWidgetUpdate(update, layout)
+  const onResize = (width, height) => {
+    calculateSizes()
+    if (props.onWidgetResize && !props.editMode) {
+      let newLayout = _.cloneDeep(props.layout)
+      newLayout.h =  Math.ceil((height + 50) / props.rowHeight)
+      props.onWidgetResize(newLayout)
     }
   }
 
-  onResize(width, height) {
-    const { onWidgetResize, rowHeight, editMode, layout } = this.props
-    this.calculateSizes(layout)
-    if (onWidgetResize && !editMode) {
-      let newLayout = _.cloneDeep(layout)
-      newLayout.h =  Math.ceil((height + 50) / rowHeight)
-      onWidgetResize(newLayout)
-    }
-  }
-
-  calculateSizes(layout) {
-    const { currentBreakpoint } = this.props
-    if (document.getElementById("widget-" + layout.i)) {
-      let newSizes = {
-        width: document.getElementById("widget-" + layout.i).offsetWidth,
-        height: document.getElementById("widget-" + layout.i).offsetHeight
+  const calculateSizes = () => {
+    if (document.getElementById("widget-" + props.layout.i)) {
+      const newSizes = {
+        width: document.getElementById("widget-" + props.layout.i).offsetWidth,
+        height: document.getElementById("widget-" + props.layout.i).offsetHeight
       }
-      let oldSizes = _.cloneDeep(this.state.sizes)
-      if (_.isEmpty(oldSizes[currentBreakpoint]) || (
-       ( (oldSizes[currentBreakpoint].height !== newSizes.height) ||
-        (oldSizes[currentBreakpoint].width !== newSizes.width) ) ) ) {
-        oldSizes[currentBreakpoint] = newSizes
-        this.setState({
-          sizes: oldSizes
-        })
+      let oldSizes = _.cloneDeep(sizes)
+      if (_.isEmpty(oldSizes[props.currentBreakpoint]) || (
+       ( (oldSizes[props.currentBreakpoint].height !== newSizes.height) ||
+        (oldSizes[props.currentBreakpoint].width !== newSizes.width) ) ) ) {
+        oldSizes[props.currentBreakpoint] = newSizes
+        setSizes(oldSizes)
       }
     }
   }
 
-  onMouseEnter (e) {
-    this.setState({
-      mouseOver: true
-    })
-  }
-
-  onMouseLeave (e) {
-    this.setState({
-      mouseOver: false
-    })
-  }
-
-  render () {
-
-    const { mouseOver } = this.state
-    const { editMode, widget } = this.props
-
-    return <div className='c-ui-widget'
-      onMouseEnter={this.onMouseEnter.bind(this)}
-      onMouseLeave={this.onMouseLeave.bind(this)}>
-      { editMode && mouseOver ?
-        <WidgetEdit {...this.props}/> : (function(self) {
-          switch(widget.type) {
-            case 'ekspandertbart':
-              return <EkspandertBartWidget {...self.props}
-                onResize={self.onResize}
-                onUpdate={self.onUpdate}/>
-            default:
-              return <div>No Widget</div>
-          }
-        })(this)
-      }
-    </div>
-  }
+  return <div className='c-ui-d-widget'
+    onMouseEnter={() => setMouseOver(true)}
+    onMouseLeave={() => setMouseOver(false)}>
+    { props.editMode && mouseOver ?
+      <WidgetEdit {...props}/> : (function() {
+        switch(props.widget.type) {
+          case 'ekspandertbart':
+            return <EkspandertBartWidget {...props}
+              onResize={onResize}
+              onUpdate={onUpdate}/>
+          default:
+            return <div>No Widget</div>
+        }
+      })()
+    }
+  </div>
 }
+
+export default Widget

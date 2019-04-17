@@ -15,7 +15,6 @@ import './Dashboard.css'
 import '../nav.css'
 
 const Dashboard = () => {
-
   const [editMode, setEditMode] = useState(false)
   const [addMode, setAddMode] = useState(false)
   const [currentBreakpoint, setCurrentBreakpoint] = useState('lg')
@@ -44,20 +43,20 @@ const Dashboard = () => {
       currentBreakpoint={currentBreakpoint}
       editMode={editMode}
       onEditModeChange={onEditModeChange}
-      onAddChange={onAddChange}/>
+      onAddChange={onAddChange} />
     {addMode ? <WidgetAddArea
-      availableWidgets={availableWidgets}/>
-    : null}
+      availableWidgets={availableWidgets} />
+      : null}
     <DashboardArea
-     editMode={editMode}
-     currentBreakpoint={currentBreakpoint}
-     onBreakpointChange={onBreakpointChange}/>
+      editMode={editMode}
+      currentBreakpoint={currentBreakpoint}
+      onBreakpointChange={onBreakpointChange} />
   </div>
 }
 
-Dashboard.defaultProps = {
-  //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-  cols: { lg: 12, md: 3, sm: 1}
+Dashboard.defaultProps = {
+  // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+  cols: { lg: 12, md: 3, sm: 1 }
 }
 
 export default DragDropContext(HTML5Backend)(Dashboard)
