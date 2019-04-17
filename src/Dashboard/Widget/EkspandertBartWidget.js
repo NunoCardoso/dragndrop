@@ -19,7 +19,8 @@ const EkspandertBartWidget = (props) => {
         <ReactResizeDetector
           handleWidth
           handleHeight
-          onResize={props.onResize} />
+          // give more 50 for the panel header
+          onResize={(w, h) => props.onResize(w, h + 50)} />
         {props.widget.options.collapsed === true
           ? null
           : <div dangerouslySetInnerHTML={{ __html: props.widget.options.content }} />

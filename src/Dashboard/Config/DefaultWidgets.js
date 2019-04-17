@@ -4,14 +4,14 @@ export default [{
   title: 'Expandable widget - Pending tasks',
   options: {
     collapsed: false,
-    content: 'Task 1: Buy eggs.<br />\
-    Task 2: Buy milk.<br />\
-    Task 3: Buy butter.<br />\
-    Task 4: Buy potatoes.<br />\
-    Task 5: Buy bread.<br />\
-    Task 6: Buy sugar.<br />\
-    Task 7: Buy toilet paper.<br />\
-    Task 8: Buy beer.<br />'
+    content: 'Task 1: Buy eggs.<br />\n' +
+    'Task 2: Buy milk.<br />\n' +
+    'Task 3: Buy butter.<br />\n' +
+    'Task 4: Buy potatoes.<br />\n' +
+    'Task 5: Buy bread.<br />\n' +
+    'Task 6: Buy sugar.<br />\n' +
+    'Task 7: Buy toilet paper.<br />\n' +
+    'Task 8: Buy beer.<br />'
   }
 }, {
   i: '1',

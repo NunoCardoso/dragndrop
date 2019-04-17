@@ -24,7 +24,7 @@ const Widget = (props) => {
     let newSizes = { width: width, height: height }
     if (props.onWidgetResize && !props.editMode) {
       let newLayout = _.cloneDeep(props.layout)
-      newLayout.h = Math.ceil((newSizes.height + 50) / props.rowHeight)
+      newLayout.h = Math.ceil((newSizes.height) / props.rowHeight)
       props.onWidgetResize(newLayout)
     }
   }

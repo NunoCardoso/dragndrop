@@ -13,15 +13,21 @@ const WidgetAdd = (props) => {
 
 export default DragSource(
   'widgetAdd', {
-    beginDrag: () => {
+    beginDrag: (props) => {
       console.log('begin dragging')
       return {
-        id: 'I am an ID'
+        widgetTemplate: props.widget
       }
     },
-    endDrag: () => {
+    endDrag: (props, monitor) => {
       console.log('end dragging')
-      return {}
+      console.log(props)
+      const item = monitor.getItem()
+      console.log(item)
+      const dropResult = monitor.getDropResult()
+      if (dropResult) {
+        //window.alert("Dropped")
+      }
     }
   },
   (connect, monitor) => ({

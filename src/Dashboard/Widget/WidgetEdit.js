@@ -39,7 +39,7 @@ const WidgetEdit = (props) => {
     <div className='titleDiv draggableHandle'>
       <span className='title'>Editing</span>
       <span className='deleteButton'>
-        <a href='#' onClick={() => setDeleteMode(true)}>[X]</a>
+        <a href='#delete' onClick={() => setDeleteMode(true)}>[X]</a>
       </span>
     </div>
   </div>
