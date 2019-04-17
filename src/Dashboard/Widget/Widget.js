@@ -7,7 +7,7 @@ import EkspandertBartWidget from './EkspandertBartWidget'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
-import "../nav.css"
+import "../../nav.css"
 import "./Widget.css"
 
 export default class Widget extends React.Component {
@@ -36,9 +36,9 @@ export default class Widget extends React.Component {
   }
 
   onResize(width, height) {
-    const { onWidgetResize, rowHeight, edit, layout } = this.props
+    const { onWidgetResize, rowHeight, editMode, layout } = this.props
     this.calculateSizes(layout)
-    if (onWidgetResize && !edit) {
+    if (onWidgetResize && !editMode) {
       let newLayout = _.cloneDeep(layout)
       newLayout.h =  Math.ceil((height + 50) / rowHeight)
       onWidgetResize(newLayout)
@@ -79,12 +79,12 @@ export default class Widget extends React.Component {
   render () {
 
     const { mouseOver } = this.state
-    const { edit, widget } = this.props
+    const { editMode, widget } = this.props
 
     return <div className='c-ui-widget'
       onMouseEnter={this.onMouseEnter.bind(this)}
       onMouseLeave={this.onMouseLeave.bind(this)}>
-      { edit && mouseOver ?
+      { editMode && mouseOver ?
         <WidgetEdit {...this.props}/> : (function(self) {
           switch(widget.type) {
             case 'ekspandertBartWidget':

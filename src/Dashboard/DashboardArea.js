@@ -2,7 +2,7 @@ import React from 'react'
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { DropTarget } from 'react-dnd'
-import Widget from '../Widget/Widget'
+import Widget from './Widget/Widget'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -168,7 +168,7 @@ class DashboardArea extends React.Component {
 
   render() {
 
-    const { rowHeight, edit, currentBreakpoint } = this.props
+    const { rowHeight, editMode, currentBreakpoint } = this.props
     const { widgets, compactType, layouts, mounted } = this.state
     let self = this
 
@@ -180,8 +180,8 @@ class DashboardArea extends React.Component {
       {...this.props}
       breakpoints={{lg: 900, md: 600, sm: 0}}
       autoSize={true}
-      isDraggable={edit}
-      isResizable={edit}
+      isDraggable={editMode}
+      isResizable={editMode}
       layouts={layouts}
       onBreakpointChange={this.onBreakpointChange}
       onLayoutChange={this.onLayoutChange}
@@ -196,7 +196,7 @@ class DashboardArea extends React.Component {
       <Widget
         layout={layout}
         widget={widgets[layout.i]}
-        edit={edit}
+        editMode={editMode}
         currentBreakpoint={currentBreakpoint}
         onWidgetResize={self.onWidgetResize}
         onWidgetUpdate={self.onWidgetUpdate}

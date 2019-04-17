@@ -91,3 +91,9 @@ li b {
   border: 1px solid black;
   background-color: #ddd;
 }
+
+.widgetAddContainer {
+  padding: 10px;
+  background: #eee;
+  margin-bottom: 10px;
+}
