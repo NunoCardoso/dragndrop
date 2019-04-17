@@ -13,11 +13,11 @@ export default [{
 }, {
   type: 'smiley',
   title: 'Smiley widget',
-  description: 'Widget with a smiley',
+  description: 'Widget with a 😀',
   options: {}
 }, {
   type: 'cat',
   title: 'Cat widget',
-  description: 'Cat widget',
+  description: 'A 🐈 in a widget',
   options: {}
 }]

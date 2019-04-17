@@ -1,33 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DragSource } from 'react-dnd'
+import classNames from 'classnames'
 
 import './Widget.css'
 
 const WidgetAdd = (props) => {
-  return <div className='c-ui-d-widgetAdd'
+
+  const [mouseOver, setMouseOver] = useState(false)
+
+  return <div className={classNames('c-ui-d-widgetAdd', {
+    'selected' : props.isDragging,
+    'hover' : mouseOver}
+    )}
+    onMouseEnter={() => setMouseOver(true)}
+    onMouseLeave={() => setMouseOver(false)}
     title={props.widget.description}
     ref={props.connectDragSource}>
-    {props.widget.title}
+    <div className='p-2 content'>
+      <h6>{props.widget.title}</h6>
+      <p><small>{props.widget.description}</small></p>
+    </div>
   </div>
 }
 
 export default DragSource(
   'widgetAdd', {
     beginDrag: (props) => {
-      console.log('begin dragging')
+      console.log('Begin dragging widgetAdd')
+      // return the object I want to send to dropTarged when dropped
       return {
         widgetTemplate: props.widget
       }
     },
     endDrag: (props, monitor) => {
-      console.log('end dragging')
-      console.log(props)
+      console.log('End dragging widgetAdd')
       const item = monitor.getItem()
-      console.log(item)
       const dropResult = monitor.getDropResult()
       if (dropResult) {
-        //window.alert("Dropped")
+        console.log('Dropped successfully a widgetAdd')
       }
+    },
+    canDrag: () => {
+      return true
     }
   },
   (connect, monitor) => ({

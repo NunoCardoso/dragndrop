@@ -46,12 +46,27 @@
 }
 
 .c-ui-d-widgetAdd {
-  width: 100px;
+  width: 130px;
   height: 100px;
   background-color: lightgray;
   margin-right: 10px;
+  cursor: move;
+  transition: all 0.2s ease-out;
+  overflow: scroll;
 }
 
+.c-ui-d-widgetAdd.selected {
+  width: 0px;
+  margin-right: 0px;
+}
+
+.c-ui-d-widgetAdd.hover {
+  background-color: white;
+}
+
+.c-ui-d-widgetAdd .content {
+  line-height: 1;
+}
 .c-ui-d-WidgetDelete {
   flex-direction: column;
   justify-content: center;
