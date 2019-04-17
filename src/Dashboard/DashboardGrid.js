@@ -10,7 +10,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 const DashboardGrid = (props) => {
   return props.connectDropTarget(<div
     className={classNames('c-ui-d-dashboardGrid', {
-      'canDrop' : props.canDrop
+      'canDrop': props.canDrop
     })}>
     <ResponsiveReactGridLayout
       {...props}
@@ -30,7 +30,7 @@ const DashboardGrid = (props) => {
         return <div id={'widget-' + layout.i} key={layout.i}>
           <WidgetWrapper
             layout={layout}
-            widget={_.find(props.widgets, {'i' : layout.i})}
+            widget={_.find(props.widgets, { 'i': layout.i })}
             editMode={props.editMode}
             currentBreakpoint={props.currentBreakpoint}
             onWidgetResize={props.onWidgetResize}
@@ -52,7 +52,7 @@ export default DropTarget(
   ['widgetAdd'],
   {
     canDrop: props => {
-      //console.log('I am DashboardGrid, you can drop here')
+      // console.log('I am DashboardGrid, you can drop here')
       return true
     },
     drop: (props, monitor, component) => {
@@ -63,7 +63,7 @@ export default DropTarget(
       props.onWidgetAdd(droppedItem.widgetTemplate)
     },
     hover: props => {
-      //console.log('Something good is hovering')
+      // console.log('Something good is hovering')
     }
   },
   (connect, monitor) => {

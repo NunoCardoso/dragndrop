@@ -46,9 +46,9 @@ const WidgetWrapper = (props) => {
   return <div className='c-ui-d-Widget'
     onMouseEnter={() => setMouseOver(true)}
     onMouseLeave={() => setMouseOver(false)}>
-    { props.editMode && mouseOver ?
-      <WidgetEdit {...props} /> :
-      <Widget {...props}
+    { props.editMode && mouseOver
+      ? <WidgetEdit {...props} />
+      : <Widget {...props}
         onUpdate={onUpdate}
         onResize={onResize}
       />

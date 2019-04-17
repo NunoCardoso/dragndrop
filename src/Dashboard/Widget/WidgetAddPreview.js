@@ -9,13 +9,13 @@ const layerStyles = {
   left: 0,
   top: 0,
   width: '100%',
-  height: '100%',
+  height: '100%'
 }
-function getItemStyles(props) {
+function getItemStyles (props) {
   const { initialOffset, currentOffset } = props
   if (!initialOffset || !currentOffset) {
     return {
-      display: 'none',
+      display: 'none'
     }
   }
   let { x, y } = currentOffset
@@ -32,17 +32,13 @@ function getItemStyles(props) {
 }
 
 const WidgetAddPreview = props => {
-  const { item, isDragging } = props
-
-  if (!isDragging) {
+  if (!props.isDragging) {
     return null
   }
-
   let widget = props.item.widgetTemplate
-
   return <div style={layerStyles}>
     <div style={getItemStyles(props)}>
-      <Widget widget={widget}/>
+      <Widget widget={widget} />
     </div>
   </div>
 }
@@ -51,5 +47,5 @@ export default DragLayer(monitor => ({
   itemType: monitor.getItemType(),
   initialOffset: monitor.getInitialSourceClientOffset(),
   currentOffset: monitor.getSourceClientOffset(),
-  isDragging: monitor.isDragging(),
+  isDragging: monitor.isDragging()
 }))(WidgetAddPreview)

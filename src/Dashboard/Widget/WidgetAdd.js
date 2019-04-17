@@ -5,27 +5,25 @@ import classNames from 'classnames'
 import './Widget.css'
 
 const WidgetAdd = (props) => {
-
   const [mouseOver, setMouseOver] = useState(false)
 
   useEffect(() => {
-
     if (props.connectDragPreview) {
       // Use empty image as a drag preview so browsers don't draw it
       // and we can draw whatever we want on the custom drag layer instead.
       props.connectDragPreview(getEmptyImage(), {
         // IE fallback: specify that we'd rather screenshot the node
         // when it already knows it's being dragged so we can hide it with CSS.
-        captureDraggingState: true,
+        captureDraggingState: true
       })
     }
   }, [])
 
   return <div>
     <div className={classNames('c-ui-d-widgetAdd', {
-      'selected' : props.isDragging,
-      'hover' : mouseOver}
-      )}
+      'selected': props.isDragging,
+      'hover': mouseOver }
+    )}
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
       title={props.widget.description}
@@ -49,7 +47,7 @@ export default DragSource(
     },
     endDrag: (props, monitor) => {
       console.log('End dragging widgetAdd')
-      const item = monitor.getItem()
+      // const item = monitor.getItem()
       const dropResult = monitor.getDropResult()
       if (dropResult) {
         console.log('Dropped successfully a widgetAdd')
