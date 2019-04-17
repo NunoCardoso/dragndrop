@@ -1,28 +1,28 @@
 import React from 'react'
 
-export default class DashboardControlPanel extends React.Component {
+const DashboardControlPanel = (props) => {
 
-  static defaultProps = {
-    //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    cols: { lg: 12, md: 3, sm: 1}
-  }
-
-  render() {
-    const { editMode, addMode, currentBreakpoint, onAddChange, onEditModeChange } = this.props
-    return <div className='d-flex m-2 justify-content-between'>
-      <div className='d-inline-block'>
-        Current Breakpoint: {currentBreakpoint} ({
-          this.props.cols[currentBreakpoint]
-        }{" "}columns)
-      </div>
-      <div className="buttons">
-        {editMode ? <button onClick={onAddChange}>
-          {!addMode ? "Add new" : "Hide new"}
-        </button> : null}
-        <button onClick={onEditModeChange}>
-          {editMode ? "Editing" : "Edit"}
-        </button>
-      </div>
+  return <div className='c-ui-d-dashboardControlPanel m-2'>
+    <div className='d-inline-block'>
+      Current Breakpoint: {props.currentBreakpoint} ({
+        props.cols[props.currentBreakpoint]
+      } columns)
     </div>
-  }
+    <div className='c-ui-d-dashboardControlPanel-buttons'>
+      {props.editMode ? <button className='c-ui-d-dashboardControlPanel-button'
+        onClick={props.onAddChange}>
+        {!props.addMode ? "Add new" : "Hide new"}
+      </button> : null}
+      <button onClick={props.onEditModeChange}>
+        {props.editMode ? "Editing" : "Edit"}
+      </button>
+    </div>
+  </div>
 }
+
+DashboardControlPanel.defaultProps = {
+  //cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+  cols: { lg: 12, md: 3, sm: 1}
+}
+
+export default DashboardControlPanel

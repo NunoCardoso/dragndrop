@@ -9,6 +9,8 @@ import DashboardControlPanel from './DashboardControlPanel'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import './grid.css'
+
 import './Dashboard.css'
 import '../nav.css'
 
