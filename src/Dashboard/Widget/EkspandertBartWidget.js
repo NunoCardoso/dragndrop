@@ -11,21 +11,23 @@ const EkspandertBartWidget = (props) => {
     props.onUpdate(newWidget)
   }
 
-  return <Ekspanderbartpanel
-    apen={!props.widget.options.collapsed}
-    tittel={props.widget.title}
-    onClick={onClick}>
-    <div>
-      <ReactResizeDetector
-        handleWidth
-        handleHeight
-        onResize={props.onResize} />
-      {props.widget.options.collapsed === true
-        ? null
-        : <div dangerouslySetInnerHTML={{__html: props.widget.options.content}}/>
-      }
-    </div>
-  </Ekspanderbartpanel>
+  return <div className='c-ui-d-EkspandertbartWidget'>
+    <Ekspanderbartpanel
+      apen={!props.widget.options.collapsed}
+      tittel={props.widget.title}
+      onClick={onClick}>
+      <div>
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={props.onResize} />
+        {props.widget.options.collapsed === true
+          ? null
+          : <div dangerouslySetInnerHTML={{__html: props.widget.options.content}}/>
+        }
+      </div>
+    </Ekspanderbartpanel>
+  </div>
 }
 
 export default EkspandertBartWidget

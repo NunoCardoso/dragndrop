@@ -1,7 +1,7 @@
 export default [{
   i: '0',
   type: 'ekspandertbart',
-  title: 'Pending tasks',
+  title: 'Expandable widget - Pending tasks',
   options: {
     collapsed: false,
     content: 'Task 1: Buy eggs.<br />\
@@ -16,17 +16,19 @@ export default [{
 }, {
   i: '1',
   type: 'panel',
-  title: 'Things to do',
-  options: {}
+  title: 'Panel widget - things to do',
+  options: {
+    content: 'Work on the dashboard'
+  }
 }, {
   i: '2',
   type: 'smiley',
-  title: 'Mood today',
+  title: 'Smiley widget - Mood today',
   options: {}
 }, {
   i: '3',
   type: 'ekspandertbart',
-  title: 'Messages',
+  title: 'Ekspandertbart widget - Messages',
   options: {
     collapsed: false,
     content: 'No messages'

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import WidgetEdit from './WidgetEdit'
 import EkspandertBartWidget from './EkspandertBartWidget'
-/*import PanelWidget from './PanelWidget'
+import PanelWidget from './PanelWidget'
 import SmileyWidget from './SmileyWidget'
 import CatWidget from './CatWidget'
-*/
+
 import './Widget.css'
 
 const Widget = (props) => {
@@ -52,13 +52,13 @@ const Widget = (props) => {
     onMouseEnter={() => setMouseOver(true)}
     onMouseLeave={() => setMouseOver(false)}>
     { props.editMode && mouseOver ?
-      <WidgetEdit {...props}/> : (function() {
+      <WidgetEdit {...props}/> : (() => {
         switch(props.widget.type) {
           case 'ekspandertbart':
             return <EkspandertBartWidget {...props}
               onResize={onResize}
               onUpdate={onUpdate}/>
-/*          case 'panel':
+          case 'panel':
             return <PanelWidget {...props}
               onUpdate={onUpdate}/>
           case 'smiley':
@@ -66,7 +66,7 @@ const Widget = (props) => {
               onUpdate={onUpdate}/>
           case 'cat':
             return <CatWidget {...props}
-              onUpdate={onUpdate}/>*/
+              onUpdate={onUpdate}/>
           default:
             return <div>No Widget</div>
         }
