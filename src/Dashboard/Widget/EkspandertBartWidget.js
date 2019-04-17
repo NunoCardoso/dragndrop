@@ -4,7 +4,6 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel'
 import ReactResizeDetector from 'react-resize-detector'
 
 const EkspandertBartWidget = (props) => {
-
   const onClick = () => {
     let newWidget = _.cloneDeep(props.widget)
     newWidget.options.collapsed = !newWidget.options.collapsed
@@ -23,7 +22,7 @@ const EkspandertBartWidget = (props) => {
           onResize={props.onResize} />
         {props.widget.options.collapsed === true
           ? null
-          : <div dangerouslySetInnerHTML={{__html: props.widget.options.content}}/>
+          : <div dangerouslySetInnerHTML={{ __html: props.widget.options.content }} />
         }
       </div>
     </Ekspanderbartpanel>

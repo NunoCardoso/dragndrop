@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import KnappBase from 'nav-frontend-knapper';
+import KnappBase from 'nav-frontend-knapper'
 import './Widget.css'
 
 const WidgetEdit = (props) => {
-
   const [deleteMode, setDeleteMode] = useState(false)
 
   const onWidgetEditClick = (e) => {
