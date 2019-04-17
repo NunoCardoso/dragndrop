@@ -8,7 +8,6 @@ import WidgetWrapper from './Widget/WidgetWrapper'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const DashboardGrid = (props) => {
-
   return props.connectDropTarget(<div
     className={classNames('c-ui-d-dashboardGrid', {
       'canDrop' : props.canDrop
@@ -27,11 +26,11 @@ const DashboardGrid = (props) => {
       preventCollision={false}
       draggableHandle={'.draggableHandle'}
     >
-      {_.map(props.layouts[props.currentBreakpoint], (layout, i) => {
-        return <div id={'widget-' + layout.i} key={i}>
+      {_.map(props.layouts[props.currentBreakpoint], (layout) => {
+        return <div id={'widget-' + layout.i} key={layout.i}>
           <WidgetWrapper
             layout={layout}
-            widget={props.widgets[layout.i]}
+            widget={_.find(props.widgets, {'i' : layout.i})}
             editMode={props.editMode}
             currentBreakpoint={props.currentBreakpoint}
             onWidgetResize={props.onWidgetResize}

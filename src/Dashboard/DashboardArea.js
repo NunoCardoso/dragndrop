@@ -15,9 +15,9 @@ const DashboardArea = (props) => {
 
   const onWidgetAdd = (widget) => {
     const newWidgets = _.cloneDeep(widgets)
-    const countWidgets = Object.keys(newWidgets).length
+    const newId = 'w' + new Date().getTime()
     setWidgets(newWidgets.concat({
-      i: countWidgets.toString(),
+      i: newId,
       type: widget.type,
       title: widget.title,
       options: widget.options
@@ -25,7 +25,7 @@ const DashboardArea = (props) => {
     const newLayouts = _.cloneDeep(layouts)
     Object.keys(newLayouts).forEach(breakpoint => {
       newLayouts[breakpoint] = newLayouts[breakpoint].concat({
-        i: countWidgets.toString(),
+        i: newId,
         x: 0,
         y: Infinity, // puts it at the bottom
         w: 2,
@@ -52,21 +52,13 @@ const DashboardArea = (props) => {
   const onWidgetDelete = layout => {
     let newWidgets = _.cloneDeep(widgets)
     newWidgets = _.reject(newWidgets, { 'i': layout.i })
-    newWidgets = newWidgets.map((widget, i) => {
-      widget.i = i.toString()
-      return widget
-    })
+    setWidgets(newWidgets)
+
     let newLayout = _.cloneDeep(layouts)
     Object.keys(newLayout).forEach(breakpoint => {
       newLayout[breakpoint] = _.reject(newLayout[breakpoint], { 'i': layout.i })
-      // re-sort layout ids in a sequential order, it is mandatory for react-grid-layout
-      newLayout[breakpoint] = newLayout[breakpoint].map((layout, i) => {
-        layout.i = i.toString()
-        return layout
-      })
     })
     setLayouts(newLayout)
-    setWidgets(newWidgets)
   }
 
   const onLayoutChange = (layout, layouts) => {

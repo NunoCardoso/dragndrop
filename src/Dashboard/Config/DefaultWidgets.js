@@ -1,5 +1,5 @@
 export default [{
-  i: '0',
+  i: 'w0',
   type: 'ekspandertbart',
   title: 'Expandable widget - Pending tasks',
   options: {
@@ -14,19 +14,19 @@ export default [{
     'Task 8: Buy beer.<br />'
   }
 }, {
-  i: '1',
+  i: 'w1',
   type: 'panel',
   title: 'Panel widget - things to do',
   options: {
     content: 'Work on the dashboard'
   }
 }, {
-  i: '2',
+  i: 'w2',
   type: 'smiley',
   title: 'Smiley widget - Mood today',
   options: {}
 }, {
-  i: '3',
+  i: 'w3',
   type: 'ekspandertbart',
   title: 'Ekspandertbart widget - Messages',
   options: {

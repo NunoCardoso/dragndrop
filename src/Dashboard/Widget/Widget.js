@@ -7,7 +7,7 @@ import SmileyWidget from './Catalog/SmileyWidget'
 import CatWidget from './Catalog/CatWidget'
 
 const Widget = (props) => {
-
+  
   switch (props.widget.type) {
     case 'ekspandertbart':
       return <EkspandertBartWidget {...props}/>
