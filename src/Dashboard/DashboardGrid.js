@@ -2,13 +2,17 @@ import React from 'react'
 import _ from 'lodash'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import { DropTarget } from 'react-dnd'
+import classNames from 'classnames'
 import WidgetWrapper from './Widget/WidgetWrapper'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const DashboardGrid = (props) => {
 
-  return props.connectDropTarget(<div className='c-ui-d-dashboardGrid'>
+  return props.connectDropTarget(<div
+    className={classNames('c-ui-d-dashboardGrid', {
+      'canDrop' : props.canDrop
+    })}>
     <ResponsiveReactGridLayout
       {...props}
       breakpoints={{ lg: 900, md: 600, sm: 0 }}
@@ -49,16 +53,18 @@ export default DropTarget(
   ['widgetAdd'],
   {
     canDrop: props => {
-      console.log('I am DashboardGrid, you can drop here')
+      //console.log('I am DashboardGrid, you can drop here')
       return true
     },
     drop: (props, monitor, component) => {
       console.log('Something good dropped')
       let droppedItem = monitor.getItem()
+      let droppedItemType = monitor.getItemType()
+      console.log('A good ' + droppedItemType + ' dropped')
       props.onWidgetAdd(droppedItem.widgetTemplate)
     },
     hover: props => {
-      console.log('Something good is hovering')
+      //console.log('Something good is hovering')
     }
   },
   (connect, monitor) => {

@@ -1,6 +1,14 @@
-
-
 .c-ui-d-dashboardControlPanel {
   display: flex;
   justify-content: space-between;
+}
+
+.c-ui-d-dashboardGrid.canDrop .react-grid-layout {
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+ 0% {background-color: #eee;}
+ 50% {background-color: #fee;}
+ 100% {background-color: #eee;}
 }

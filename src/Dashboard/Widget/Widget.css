@@ -52,7 +52,7 @@
   margin-right: 10px;
   cursor: move;
   transition: all 0.2s ease-out;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .c-ui-d-widgetAdd.selected {
