@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import { DropTarget } from 'react-dnd'
-import Widget from './Widget/Widget'
+import WidgetWrapper from './Widget/WidgetWrapper'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -25,7 +25,7 @@ const DashboardGrid = (props) => {
     >
       {_.map(props.layouts[props.currentBreakpoint], (layout, i) => {
         return <div id={'widget-' + layout.i} key={i}>
-          <Widget
+          <WidgetWrapper
             layout={layout}
             widget={props.widgets[layout.i]}
             editMode={props.editMode}

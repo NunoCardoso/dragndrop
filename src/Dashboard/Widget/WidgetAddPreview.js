@@ -1,9 +1,6 @@
 import React from 'react'
 import { DragLayer } from 'react-dnd'
-import EkspandertBartWidget from './EkspandertBartWidget'
-import PanelWidget from './PanelWidget'
-import SmileyWidget from './SmileyWidget'
-import CatWidget from './CatWidget'
+import Widget from './Widget'
 
 const layerStyles = {
   position: 'fixed',
@@ -43,32 +40,11 @@ const WidgetAddPreview = props => {
 
   let widget = props.item.widgetTemplate
 
-  return (
-    <div style={layerStyles}>
-      <div style={getItemStyles(props)}>
-        <div>{(() => {
-          switch (widget.type) {
-            case 'ekspandertbart':
-              return <EkspandertBartWidget
-                style={{width: '200px'}}
-                widget={widget}/>
-            case 'panel':
-              return <PanelWidget
-                widget={widget} />
-            case 'smiley':
-              return <SmileyWidget
-              widget={widget}/>
-            case 'cat':
-              return <CatWidget
-              widget={widget} />
-            default:
-              return <div>No Widget</div>
-          }
-        })()}
-        </div>
-      </div>
+  return <div style={layerStyles}>
+    <div style={getItemStyles(props)}>
+      <Widget widget={widget}/>
     </div>
-  )
+  </div>
 }
 export default DragLayer(monitor => ({
   item: monitor.getItem(),
