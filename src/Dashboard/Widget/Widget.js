@@ -16,7 +16,7 @@ const Widget = (props) => {
     case 'cat':
       return <CatWidget {...props} />
     default:
-      return <div>No Widget of type {props.widgt.type}</div>
+      return <div>No Widget of type {props.widget.type}</div>
   }
 }
 

@@ -16,6 +16,8 @@ const DashboardGrid = (props) => {
       {...props}
       breakpoints={{ lg: 900, md: 600, sm: 0 }}
       autoSize
+      margin={[10,10]}
+      containerPadding={[10,10]}
       isDraggable={props.editMode}
       isResizable={props.editMode}
       layouts={props.layouts}

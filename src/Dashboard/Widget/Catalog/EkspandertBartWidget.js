@@ -13,7 +13,7 @@ const EkspandertBartWidget = (props) => {
   const _onResize = (w, h) => {
     if (props.onResize) {
       // give more 50 for the panel header
-      props.onResize(w, h + 50)
+      props.onResize(w, h + 60)
     }
   }
 
