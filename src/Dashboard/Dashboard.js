@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
-import WidgetAdd from './Widget/WidgetAdd'
+import WidgetAddArea from './Widget/WidgetAddArea'
 import DashboardArea from './DashboardArea'
 import DashboardControlPanel from './DashboardControlPanel'
 
@@ -12,11 +12,16 @@ import 'react-resizable/css/styles.css'
 import './Dashboard.css'
 import '../nav.css'
 
-function Dashboard (props) {
+const Dashboard = () => {
 
   const [editMode, setEditMode] = useState(false)
   const [addMode, setAddMode] = useState(false)
   const [currentBreakpoint, setCurrentBreakpoint] = useState('lg')
+  const [availableWidgets, setAvailableWidgets] = useState([])
+
+  useEffect(() => {
+    setAvailableWidgets(require('./Config/AvailableWidgets').default)
+  })
 
   const onBreakpointChange = (breakpoint) => {
     setCurrentBreakpoint(breakpoint)
@@ -31,14 +36,16 @@ function Dashboard (props) {
     setAddMode(!addMode)
   }
 
-  return <div className='c-ui-dashboard'>
+  return <div className='c-ui-d-dashboard'>
     <DashboardControlPanel
       addMode={addMode}
       currentBreakpoint={currentBreakpoint}
       editMode={editMode}
       onEditModeChange={onEditModeChange}
       onAddChange={onAddChange}/>
-    {addMode ? <WidgetAdd/>: null}
+    {addMode ? <WidgetAddArea
+      availableWidgets={availableWidgets}/>
+    : null}
     <DashboardArea
      editMode={editMode}
      currentBreakpoint={currentBreakpoint}

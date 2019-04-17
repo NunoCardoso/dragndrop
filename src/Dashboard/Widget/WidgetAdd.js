@@ -3,18 +3,16 @@ import { DragSource } from 'react-dnd'
 
 import './Widget.css'
 
-class WidgetAdd extends React.Component {
-  render () {
-    return <div className='widgetAddContainer'>
-      <div className='widgetAdd' ref={this.props.connectDragSource}>
-        {this.props.text}
-      </div>
-   </div>
-  }
+const WidgetAdd = (props) => {
+  return <div className='c-ui-d-widgetAdd'
+    title={props.widget.description}
+    ref={props.connectDragSource}>
+    {props.widget.title}
+  </div>
 }
 
 export default DragSource(
-  'dashboard', {
+  'widgetAdd', {
     beginDrag: () => {
       console.log('begin dragging')
       return {

@@ -210,7 +210,7 @@ class DashboardArea extends React.Component {
 }
 
 export default DropTarget(
-  ['dashboard'],
+  ['widgetAdd', 'dashboard'],
   {
     canDrop: props => {
       console.log("I am DashboardArea, you can drop here")

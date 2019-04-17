@@ -38,8 +38,16 @@
   height: 100%;
 }
 
-.widgetAdd {
+.c-ui-d-widgetAddContainer {
+  padding: 10px;
+  background: #eee;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.c-ui-d-widgetAdd {
   width: 100px;
   height: 100px;
   background-color: lightgray;
+  margin-right: 10px;
 }
