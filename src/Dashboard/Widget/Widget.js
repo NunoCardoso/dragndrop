@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import WidgetEdit from './WidgetEdit'
 import EkspandertBartWidget from './EkspandertBartWidget'
-
+/*import PanelWidget from './PanelWidget'
+import SmileyWidget from './SmileyWidget'
+import CatWidget from './CatWidget'
+*/
 import './Widget.css'
 
 const Widget = (props) => {
@@ -20,10 +23,10 @@ const Widget = (props) => {
   }
 
   const onResize = (width, height) => {
-    calculateSizes()
+    let newSizes = {width: width, height: height}
     if (props.onWidgetResize && !props.editMode) {
       let newLayout = _.cloneDeep(props.layout)
-      newLayout.h =  Math.ceil((height + 50) / props.rowHeight)
+      newLayout.h =  Math.ceil((newSizes.height + 50) / props.rowHeight)
       props.onWidgetResize(newLayout)
     }
   }
@@ -41,6 +44,7 @@ const Widget = (props) => {
         oldSizes[props.currentBreakpoint] = newSizes
         setSizes(oldSizes)
       }
+      return newSizes
     }
   }
 
@@ -54,6 +58,15 @@ const Widget = (props) => {
             return <EkspandertBartWidget {...props}
               onResize={onResize}
               onUpdate={onUpdate}/>
+/*          case 'panel':
+            return <PanelWidget {...props}
+              onUpdate={onUpdate}/>
+          case 'smiley':
+            return <SmileyWidget {...props}
+              onUpdate={onUpdate}/>
+          case 'cat':
+            return <CatWidget {...props}
+              onUpdate={onUpdate}/>*/
           default:
             return <div>No Widget</div>
         }

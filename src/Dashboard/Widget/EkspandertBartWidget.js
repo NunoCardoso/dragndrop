@@ -3,46 +3,29 @@ import _ from 'lodash'
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel'
 import ReactResizeDetector from 'react-resize-detector'
 
-export default class EkspandertBartWidget extends React.Component {
-  constructor (props) {
-    super(props)
-    this.onClick = this.onClick.bind(this)
-  }
+const EkspandertBartWidget = (props) => {
 
-  onClick () {
-    const { onUpdate, widget } = this.props
-    let newWidget = _.cloneDeep(widget)
+  const onClick = () => {
+    let newWidget = _.cloneDeep(props.widget)
     newWidget.options.collapsed = !newWidget.options.collapsed
-    if (onUpdate) {
-      onUpdate(newWidget)
-    }
+    props.onUpdate(newWidget)
   }
 
-  render () {
-    const { widget, onResize } = this.props
-
-    return <Ekspanderbartpanel
-      apen={!widget.options.collapsed}
-      tittel={widget.title}
-      onClick={this.onClick}>
-      <div>
-        <ReactResizeDetector
-          handleWidth
-          handleHeight
-          onResize={onResize} />
-        {widget.options.collapsed === true
-          ? null
-          : <div> Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-        Panelet vil da ekspandere og vise innholdet.<br />
-          </div>}
-      </div>
-    </Ekspanderbartpanel>
-  }
+  return <Ekspanderbartpanel
+    apen={!props.widget.options.collapsed}
+    tittel={props.widget.title}
+    onClick={onClick}>
+    <div>
+      <ReactResizeDetector
+        handleWidth
+        handleHeight
+        onResize={props.onResize} />
+      {props.widget.options.collapsed === true
+        ? null
+        : <div dangerouslySetInnerHTML={{__html: props.widget.options.content}}/>
+      }
+    </div>
+  </Ekspanderbartpanel>
 }
+
+export default EkspandertBartWidget
