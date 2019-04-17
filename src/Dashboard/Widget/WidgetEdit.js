@@ -1,32 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
+import KnappBase from 'nav-frontend-knapper';
+import './Widget.css'
 
-export default class WidgetEdit extends React.Component {
-  constructor (props) {
-    super(props)
-    this.onWidgetDeleteClick = this.onWidgetDeleteClick.bind(this)
-  }
+const WidgetEdit = (props) => {
 
-  onWidgetEditClick (e) {
+  const [deleteMode, setDeleteMode] = useState(false)
+
+  const onWidgetEditClick = (e) => {
     console.log(e)
   }
 
-  onWidgetDeleteClick (e) {
+  const onWidgetDeleteClick = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    if (this.props.onWidgetDelete) {
-      this.props.onWidgetDelete(this.props.layout)
-    }
+    props.onWidgetDelete(props.layout)
   }
 
-  render () {
-    return <div className='editLayout'
-      onClick={this.onWidgetEditClick}>
-      <div className='editLayoutTitleDiv draggableHandle'>
-        <span className='editLayoutTitle'>Editing</span>
-        <span className='editLayoutDeleteButton'>
-          <a href='#' onClick={this.onWidgetDeleteClick}>[X]</a>
-        </span>
+  if (deleteMode) {
+    return <div className='c-ui-d-WidgetDelete'>
+      <div classname='p-4 text'>
+        <p>Are you sure you want to remove this widget?</p>
+        <p>You can add it later, but all settings/configurations will be lost.</p>
+      </div>
+      <div className='buttons'>
+        <KnappBase
+          type='hoved'
+          onClick={onWidgetDeleteClick}
+        >Yes, delete</KnappBase>
+        <KnappBase
+          type='flat'
+          onClick={() => setDeleteMode(false)}
+        >No, cancel</KnappBase>
       </div>
     </div>
   }
+
+  return <div className='c-ui-d-WidgetEdit'
+    onClick={onWidgetEditClick}>
+    <div className='titleDiv draggableHandle'>
+      <span className='title'>Editing</span>
+      <span className='deleteButton'>
+        <a href='#' onClick={() => setDeleteMode(true)}>[X]</a>
+      </span>
+    </div>
+  </div>
 }
+
+export default WidgetEdit

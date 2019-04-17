@@ -48,7 +48,7 @@ const Widget = (props) => {
     }
   }
 
-  return <div className='c-ui-d-widget'
+  return <div className='c-ui-d-Widget'
     onMouseEnter={() => setMouseOver(true)}
     onMouseLeave={() => setMouseOver(false)}>
     { props.editMode && mouseOver ?

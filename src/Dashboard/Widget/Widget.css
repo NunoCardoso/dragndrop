@@ -13,28 +13,28 @@
   transition-property: transform;/*, height, width;*/
 }
 
-.editLayout {
+.c-ui-d-WidgetEdit {
   background-color: rgba(255,255,255,0.7);
   text-align: center;
 }
 
-.editLayoutTitleDiv {
-  background: lightgrey;
+.c-ui-d-WidgetEdit .titleDiv {
+  background: #eee;
   margin: 5px;
   cursor: move;
 }
 
-.editLayoutTitle {
-  padding: 3px;
+.c-ui-d-WidgetEdit .title {
+  padding: 5px;
 }
 
-.editLayoutDeleteButton {
+.c-ui-d-WidgetEdit .deleteButton {
   background: white;
   padding-left: 3px;
   float: right;
 }
 
-.c-ui-widget {
+.c-ui-d-Widget {
   height: 100%;
 }
 
@@ -50,4 +50,14 @@
   height: 100px;
   background-color: lightgray;
   margin-right: 10px;
+}
+
+.c-ui-d-WidgetDelete {
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  overflow: scroll;
 }
