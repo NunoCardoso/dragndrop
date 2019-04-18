@@ -28,8 +28,12 @@ const DashboardArea = (props) => {
         i: newId,
         x: 0,
         y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
+        w: widget.layout[breakpoint].defaultW,
+        h: widget.layout[breakpoint].defaultH,
+        minW: widget.layout[breakpoint].minW,
+        minH: widget.layout[breakpoint].minH,
+        maxW: widget.layout[breakpoint].maxW,
+        maxH: widget.layout[breakpoint].maxH
       })
     })
     setLayouts(newLayouts)
