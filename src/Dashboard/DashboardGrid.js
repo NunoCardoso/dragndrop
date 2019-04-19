@@ -4,20 +4,22 @@ import { Responsive, WidthProvider } from 'react-grid-layout'
 import { DropTarget } from 'react-dnd'
 import classNames from 'classnames'
 import WidgetWrapper from './Widget/WidgetWrapper'
+import DashboardConfig from './Config/DashboardConfig'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const DashboardGrid = (props) => {
   return props.connectDropTarget(<div
+    id='dashboardGrid'
     className={classNames('c-ui-d-dashboardGrid', {
       'canDrop': props.canDrop
     })}>
     <ResponsiveReactGridLayout
       {...props}
-      breakpoints={{ lg: 900, md: 600, sm: 0 }}
+      breakpoints={DashboardConfig.breakpoints}
       autoSize
-      margin={[10,10]}
-      containerPadding={[10,10]}
+      margin={DashboardConfig.margin}
+      containerPadding={DashboardConfig.containerPadding}
       isDraggable={props.editMode}
       isResizable={props.editMode}
       layouts={props.layouts}
@@ -45,10 +47,7 @@ const DashboardGrid = (props) => {
   </div>)
 }
 
-DashboardGrid.defaultProps = {
-  cols: { lg: 12, md: 3, sm: 1 },
-  rowHeight: 30
-}
+DashboardGrid.defaultProps = DashboardConfig
 
 export default DropTarget(
   ['widgetAdd'],

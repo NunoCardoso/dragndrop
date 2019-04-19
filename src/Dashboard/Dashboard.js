@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import WidgetAddArea from './Widget/WidgetAddArea'
 import DashboardArea from './DashboardArea'
 import DashboardControlPanel from './DashboardControlPanel'
+import DashboardConfig from './Config/DashboardConfig'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -44,6 +45,7 @@ const Dashboard = () => {
       onEditModeChange={onEditModeChange}
       onAddChange={onAddChange} />
     {addMode ? <WidgetAddArea
+      currentBreakpoint={currentBreakpoint}
       availableWidgets={availableWidgets} />
       : null}
     <DashboardArea
@@ -53,9 +55,6 @@ const Dashboard = () => {
   </div>
 }
 
-Dashboard.defaultProps = {
-  // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-  cols: { lg: 12, md: 3, sm: 1 }
-}
+Dashboard.defaultProps = DashboardConfig
 
 export default DragDropContext(HTML5Backend)(Dashboard)

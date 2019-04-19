@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import DashboardGrid from './DashboardGrid'
+import DashboardConfig from './Config/DashboardConfig'
 
 const DashboardArea = (props) => {
   const [mounted, setMounted] = useState(false)
@@ -86,9 +87,6 @@ const DashboardArea = (props) => {
   />
 }
 
-DashboardArea.defaultProps = {
-  cols: { lg: 12, md: 3, sm: 1 },
-  rowHeight: 30
-}
+DashboardArea.defaultProps = DashboardConfig
 
 export default DashboardArea

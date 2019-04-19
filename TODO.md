@@ -1,0 +1,3 @@
+- Add a "cancel editing" that restores
+- Add a position in grid for hover
+- Save / load 

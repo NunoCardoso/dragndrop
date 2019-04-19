@@ -1,4 +1,5 @@
 import React from 'react'
+import DashboardConfig from './Config/DashboardConfig'
 
 const DashboardControlPanel = (props) => {
   return <div className='c-ui-d-dashboardControlPanel m-2'>
@@ -19,9 +20,6 @@ const DashboardControlPanel = (props) => {
   </div>
 }
 
-DashboardControlPanel.defaultProps = {
-  // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-  cols: { lg: 12, md: 3, sm: 1 }
-}
+DashboardControlPanel.defaultProps = DashboardConfig
 
 export default DashboardControlPanel

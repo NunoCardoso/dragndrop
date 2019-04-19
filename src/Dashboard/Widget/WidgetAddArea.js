@@ -5,7 +5,9 @@ import WidgetAddPreview from './WidgetAddPreview'
 
 const WidgetAddArea = (props) => {
   return <div className='c-ui-d-widgetAddContainer'>
-    <WidgetAddPreview />
+    <WidgetAddPreview
+      currentBreakpoint={props.currentBreakpoint}
+     />
     {props.availableWidgets.map(widget => {
       return <WidgetAdd widget={widget} />
     })}
