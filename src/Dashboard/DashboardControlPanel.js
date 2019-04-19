@@ -13,9 +13,17 @@ const DashboardControlPanel = (props) => {
         onClick={props.onAddChange}>
         {!props.addMode ? 'Add new widget' : 'Hide new widgets'}
       </button> : null}
-      <button onClick={props.onEditModeChange}>
-        {props.editMode ? 'Save dashboard' : 'Edit dashboard'}
-      </button>
+      {!props.editMode ? <button onClick={props.onEditModeOn}>
+         Edit dashboard
+        </button> : <React.Fragment>
+          <button className='mr-2' onClick={props.onSaveEdit}>
+          Save dashboard
+          </button>
+          <button className='mr-2' onClick={props.onCancelEdit}>
+          Cancel dashboard
+          </button>
+        </React.Fragment>
+      }
     </div>
   </div>
 }
