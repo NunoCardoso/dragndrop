@@ -7,6 +7,7 @@ import WidgetAddArea from './Widget/WidgetAddArea'
 import DashboardGrid from './DashboardGrid'
 import DashboardControlPanel from './DashboardControlPanel'
 import DashboardConfig from './Config/DashboardConfig'
+import * as DashboardAPI from './API/DashboardAPI'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -25,10 +26,11 @@ const Dashboard = () => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState('lg')
   const [availableWidgets, setAvailableWidgets] = useState([])
 
-  useEffect(() => {
+  useEffect(async () => {
     setAvailableWidgets(require('./Config/AvailableWidgets').default)
-    setWidgets(require('./Config/DefaultWidgets').default)
-    setLayouts(require('./Config/DefaultLayout').default)
+    const [_widgets, _layouts] = await DashboardAPI.loadDashboard()
+    setWidgets(_widgets)
+    setLayouts(_layouts)
     setMounted(true)
   }, [])
 
@@ -107,7 +109,8 @@ const Dashboard = () => {
     setLayouts(backupLayouts)
   }
 
-  const onSaveEdit = () => {
+  const onSaveEdit = async () => {
+    await DashboardAPI.saveDashboard(widgets, layouts)
     setEditMode(false)
   }
 

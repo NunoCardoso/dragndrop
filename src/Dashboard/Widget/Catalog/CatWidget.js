@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactResizeDetector from 'react-resize-detector'
+import './CatWidget.css'
 
 const CatWidget = (props) => {
   const [mounted, setMounted] = useState(false)
@@ -11,7 +12,7 @@ const CatWidget = (props) => {
     }
   }, [])
 
-  return <div className='c-ui-d-SmileyWidget'>
+  return <div className='c-ui-d-catWidget'>
     <ReactResizeDetector
       handleWidth
       handleHeight
